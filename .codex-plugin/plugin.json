@@ -1,0 +1,41 @@
+{
+  "name": "create-ip-op-poster",
+  "version": "0.1.2",
+  "description": "Turn Chinese IP or OP recruitment briefs and creator assets into confirmed poster directions, protected-layer compositions, complete prompts, and QA-ready handoffs.",
+  "author": {
+    "name": "nmmg0112",
+    "url": "https://github.com/nmmg0112"
+  },
+  "homepage": "https://github.com/nmmg0112/create-ip-op-poster-plugin",
+  "repository": "https://github.com/nmmg0112/create-ip-op-poster-plugin",
+  "keywords": [
+    "poster",
+    "ip-op",
+    "creator-marketing",
+    "visual-direction",
+    "chinese"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "IP/OP 海报制作",
+    "shortDescription": "四步完成保真、好看的达人 IP／OP 海报",
+    "longDescription": "从 Brief 和人物原图开始，完成创意方向、人物或动物抠图确认、人物排布确认、完整成图 Prompt 与最终 QA。人物、动物、案例截图和 Logo 始终作为受保护素材处理。",
+    "developerName": "nmmg0112",
+    "category": "Productivity",
+    "capabilities": [
+      "Image inputs",
+      "Workflow guidance"
+    ],
+    "websiteURL": "https://github.com/nmmg0112/create-ip-op-poster-plugin",
+    "privacyPolicyURL": "https://github.com/nmmg0112/create-ip-op-poster-plugin/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/nmmg0112/create-ip-op-poster-plugin/blob/main/TERMS.md",
+    "defaultPrompt": [
+      "我有 Brief 和人物原图，请从第 1/4 步开始，先给我 2—3 个创意方向。",
+      "请为这组达人设计一张 IP／OP 招商海报，不要直接成图。",
+      "请检查这张海报的人脸、截图、Logo 和排版是否符合验收标准。"
+    ],
+    "brandColor": "#D95D39",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.svg"
+  }
+}

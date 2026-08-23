@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360">
+  <rect width="1200" height="360" rx="72" fill="#F7F1E8"/>
+  <rect x="45" y="45" width="270" height="270" rx="64" fill="#D95D39"/>
+  <circle cx="135" cy="180" r="48" fill="none" stroke="#FFF8EF" stroke-width="24"/>
+  <path d="M200 238V122h48c43 0 63 24 63 57s-20 57-63 57h-18v2zM230 151v56h16c22 0 35-10 35-28s-13-28-35-28z" fill="#FFF8EF"/>
+  <text x="370" y="170" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="700" fill="#2E5146">IP / OP POSTER</text>
+  <text x="374" y="238" font-family="Arial, Helvetica, sans-serif" font-size="38" fill="#6D756F">Brief to direction, protected layers, prompt and QA</text>
+</svg>
