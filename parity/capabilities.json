@@ -1,0 +1,104 @@
+{
+  "required_files": [
+    "SKILL.md",
+    "agents/openai.yaml",
+    "references/workflow.md",
+    "references/novice-mode.md",
+    "references/direction-framework.md",
+    "references/visual-director.md",
+    "references/layout-grammar.md",
+    "references/visual-case-library.md",
+    "references/material-integrity.md",
+    "references/prompt-template.md",
+    "references/qa-checklist.md",
+    "references/platform-usage.md",
+    "references/handoff-template.md",
+    "examples/quick-start.md",
+    "examples/chatgpt-starter.md",
+    "examples/successful-prompt-benchmark.md"
+  ],
+  "forbidden_patterns": [
+    "**/.DS_Store",
+    "skills/create-ip-op-poster/tests/**",
+    "skills/create-ip-op-poster/docs/**",
+    "skills/create-ip-op-poster/assets/visual-cases/*.png",
+    "skills/create-ip-op-poster/assets/visual-cases/*.jpg"
+  ],
+  "capabilities": [
+    {
+      "id": "brief_analysis",
+      "file": "references/direction-framework.md",
+      "markers": ["User/brief facts", "Evidence-based interpretation", "Open question"]
+    },
+    {
+      "id": "solo_multi_strategy",
+      "file": "SKILL.md",
+      "markers": ["For one creator", "For multiple creators"]
+    },
+    {
+      "id": "visual_case_retrieval",
+      "file": "references/visual-case-library.md",
+      "markers": ["Retrieval protocol", "borrowed grammar", "forbidden copy elements"]
+    },
+    {
+      "id": "visual_direction",
+      "file": "references/visual-director.md",
+      "markers": ["视觉导演", "美观预检"]
+    },
+    {
+      "id": "layout_selection",
+      "file": "references/layout-grammar.md",
+      "markers": ["unified-ensemble", "grouped-by-play", "hybrid-hero-groups"]
+    },
+    {
+      "id": "density_control",
+      "file": "references/layout-grammar.md",
+      "markers": ["Density planning", "`low`", "`medium`", "`high`"]
+    },
+    {
+      "id": "direction_gate",
+      "file": "SKILL.md",
+      "markers": ["Gate 1", "选方向 1"]
+    },
+    {
+      "id": "cutout_gate",
+      "file": "SKILL.md",
+      "markers": ["Gate 2", "抠图通过"]
+    },
+    {
+      "id": "composition_gate",
+      "file": "SKILL.md",
+      "markers": ["Gate 3", "排布通过"]
+    },
+    {
+      "id": "prompt_gate",
+      "file": "SKILL.md",
+      "markers": ["Gate 4", "确认生成"]
+    },
+    {
+      "id": "protected_layers",
+      "file": "references/material-integrity.md",
+      "markers": ["Protected-source model", "Case screenshots", "Logos", "face repair"]
+    },
+    {
+      "id": "novice_mode",
+      "file": "references/novice-mode.md",
+      "markers": ["新手模式", "每轮最多询问一个", "可直接复制"]
+    },
+    {
+      "id": "cross_platform_handoff",
+      "file": "references/platform-usage.md",
+      "markers": ["跨平台", "安全交接包", "能力不足"]
+    },
+    {
+      "id": "prompt_compiler",
+      "file": "references/prompt-template.md",
+      "markers": ["版式结构层", "艺术指导层", "受保护图层表"]
+    },
+    {
+      "id": "final_qa",
+      "file": "references/qa-checklist.md",
+      "markers": ["PASS", "FAIL", "NOT VERIFIABLE", "第一视觉"]
+    }
+  ]
+}
