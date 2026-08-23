@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -11,7 +12,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = Path("/Users/bytedance/Documents/work/evaluation/skill-build/create-ip-op-poster")
+SOURCE = Path(os.environ.get("POSTER_SKILL_SOURCE", ROOT / "skills" / "create-ip-op-poster"))
 
 
 def check(condition: bool, message: str, errors: list[str]) -> None:
@@ -32,7 +33,7 @@ def main() -> int:
     check(bool(re.fullmatch(r"\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?", manifest.get("version", ""))), "version must be semver", errors)
     check(manifest.get("skills") == "./skills/", "skills path must be ./skills/", errors)
     check("apps" not in manifest, "skills-only Plugin must not declare apps", errors)
-    check("mcpServers" not in manifest, "v0.1.0 must not declare MCP servers", errors)
+    check("mcpServers" not in manifest, "skills-only release must not declare MCP servers", errors)
     check("hooks" not in manifest, "manifest must not declare hooks", errors)
 
     interface = manifest.get("interface", {})

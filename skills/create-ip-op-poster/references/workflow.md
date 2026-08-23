@@ -42,7 +42,7 @@ Assign stable IDs without renaming source files:
 - `L01...`: Logos.
 - `T01...`: fixed copy, brand rules, prohibitions, price, rights, or delivery requirements.
 
-For each file record source filename, subject/display name, subject count, type, variant/alternative relationship, visible quality limitations, and intended use. A filename suffix such as `-柒捌` or `-捌玖` is a file-management marker unless the user explicitly says it is part of the public nickname.
+For each file record source filename, subject/display name, subject count, type, variant/alternative relationship, visible quality limitations, and intended use. A filename suffix such as `-版本A` or `-备选2` is a file-management marker unless the user explicitly says it is part of the public nickname.
 
 Keep this ledger hidden unless a conflict, missing source, identity ambiguity, or capability limitation changes the result.
 
