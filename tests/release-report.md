@@ -1,14 +1,13 @@
-# Release verification — 0.1.0
+# Release verification — 0.1.2
 
 Date: 2026-08-23
 
 ## Local source
 
-- Release commit tested: `b60c9ecdf9505ff19e53bdfb54205b456ad59f30`
-- Local release tag: `v0.1.0`
-- Release archive: `create-ip-op-poster-plugin-0.1.0.zip`
-- Archive size: `63,836 bytes`
-- SHA-256: `f72d791829b95c910033558f3ec1e458a1030986085bf4dcec35b14d5417fcea`
+- Final public source commit: `9cd61a9`
+- Release archive: `create-ip-op-poster-plugin-0.1.2.zip`
+- Archive size: `61,597 bytes`
+- SHA-256: `e39860a9bbc14065ae6d1b63066a6374221b6cdfbb16a6814592a69e020b3322`
 
 ## Validation results
 
@@ -17,21 +16,29 @@ Date: 2026-08-23
 - Plugin Creator validator: `Plugin validation passed`
 - Skill Creator validator: `Skill is valid!`
 - Clean archive extraction: `PASS`
-- Feature parity, Plugin validation, and Skill validation rerun from extracted archive: `PASS`
+- Feature parity, Plugin validation, and Skill validation rerun from the extracted archive: `PASS`
 
-## Distribution checks
+## Public-safety checks
 
-- The archive contains `.codex-plugin/plugin.json` and `skills/create-ip-op-poster/SKILL.md` under the root folder `create-ip-op-poster/`.
-- All required Markdown references and examples resolve from the extracted archive.
-- No tests, internal design documents, `.DS_Store`, contact sheets, or third-party visual-case raster files are present.
-- Six original anonymous SVG layout guides replace non-public poster originals without removing the visual-retrieval workflow.
-- Version `0.1.0` declares no MCP server, App, Hook, external login, or independent data collection.
+- The successful-Prompt benchmark is fully fictional and contains no real creator, client, project, or internal file-management name.
+- The visual library contains only original anonymous layout diagrams and abstract grammar; internal reference sources, filenames, institution clues, and per-case analysis are absent.
+- No third-party visual-case raster files, internal design documents, tests, local paths, `.DS_Store`, or Git control files are present in the archive.
+- Version `0.1.2` declares no MCP server, App, Hook, external login, or independent data collection.
 
 ## Remote verification
 
-- Feishu tutorial updated and read back at revision `18`.
-- Plugin ZIP attached to the tutorial as `create-ip-op-poster-plugin-0.1.0.zip`; attachment size is `63,836 bytes`.
-- Public GitHub Plugin repository creation remains pending because the available GitHub connector cannot create repositories and the browser requires action-time confirmation before publishing a new public repository.
-- The signed-in GitHub creation page is prepared for `nmmg0112/create-ip-op-poster-plugin`, with Public visibility and the release description filled; only the final `Create repository` action is pending.
-- The existing public Skill repository was deliberately not overwritten: its public anonymous case library differs from local internal reference materials, and preserving that boundary is required for safe publication.
-- After the public Plugin repository exists, publish release commit `b60c9ecdf9505ff19e53bdfb54205b456ad59f30`, tag `v0.1.0`, attach the verified ZIP above, and compare the remote tree against the clean extracted archive.
+- Public repository: `https://github.com/nmmg0112/create-ip-op-poster-plugin`
+- Main publication commit: `9b3acd3e4f3de31210535b14d9829ffcf77037fc`
+- README clarification commit: `760b08f79e820b14557d2838aa4d385d807a0de2`
+- Remote `.codex-plugin/plugin.json` read back with version `0.1.2`.
+- Remote successful-Prompt benchmark read back as the fictional public example.
+- Repository root read back with the manifest, Skills, public assets, parity contract, support, privacy, terms, and changelog files.
+
+## Feishu distribution
+
+- Tutorial document: `https://bytedance.larkoffice.com/docx/PTm0dv6TgoiHOfxMid0cwqTvnGh`
+- Verified revision: `22`
+- Current attachment: `create-ip-op-poster-plugin-0.1.2.zip`
+- Attachment size: `61,597 bytes`
+- Attachment token: `FBaKbemUrocDtuxgFrNcosTSnrh`
+- The outdated `0.1.0` attachment block was removed from the tutorial; only the public-safe `0.1.2` archive remains.
