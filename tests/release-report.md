@@ -1,44 +1,28 @@
-# Release verification — 0.1.2
+# Release verification — 0.2.0
 
-Date: 2026-08-23
+Date: 2026-08-31
+Source commit: `76e381d6ad3f8e38bb2389188e4571ba96f7e735` (`76e381d6ad3f`)
+Build method: clean-tree `git archive`
 
-## Local source
+## Archives
 
-- Final public source commit: `9cd61a9`
-- Release archive: `create-ip-op-poster-plugin-0.1.2.zip`
-- Archive size: `61,597 bytes`
-- SHA-256: `e39860a9bbc14065ae6d1b63066a6374221b6cdfbb16a6814592a69e020b3322`
+| Archive | Bytes | SHA-256 | Members | Inspection |
+|---|---:|---|---:|---|
+| `create-ip-op-poster-plugin-0.2.0.zip` | 84,382 | `5eb1f4892ed59a22aa65378c9e6ffe8615ec0ae028040eecfe0242da4d314347` | 34 | PASS |
+| `create-ip-op-poster-skill-0.2.0.zip` | 66,308 | `32b28e0424e7690820eb981724d2a5c521244f203ac81e6c8eb2b765244da2fd` | 23 | PASS |
 
 ## Validation results
 
-- Plugin feature-parity test: `PASS plugin`
-- Required capabilities: `15/15 PASS`
-- Plugin Creator validator: `Plugin validation passed`
-- Skill Creator validator: `Skill is valid!`
-- Clean archive extraction: `PASS`
-- Feature parity, Plugin validation, and Skill validation rerun from the extracted archive: `PASS`
+- Working Plugin contract and parity checks: `PASS plugin`; all 18 capability checks passed.
+- Clean extracted Plugin contract and parity checks: `PASS plugin`; all 18 capability checks passed.
+- Clean extracted Skill behavioral validator: `PASS workflow`, `PASS production`, `PASS visual`, `PASS integrity`, `PASS prompt`, `PASS docs`.
+- Plugin Creator structural validation passed for the working Plugin and clean extracted Plugin.
+- Skill Creator structural validation passed for the source Skill, Plugin Skill, and clean extracted Skill.
+- Independent SHA-256 output matched both archive hashes above.
 
-## Public-safety checks
+## Package boundary
 
-- The successful-Prompt benchmark is fully fictional and contains no real creator, client, project, or internal file-management name.
-- The visual library contains only original anonymous layout diagrams and abstract grammar; internal reference sources, filenames, institution clues, and per-case analysis are absent.
-- No third-party visual-case raster files, internal design documents, tests, local paths, `.DS_Store`, or Git control files are present in the archive.
-- Version `0.1.2` declares no MCP server, App, Hook, external login, or independent data collection.
-
-## Remote verification
-
-- Public repository: `https://github.com/nmmg0112/create-ip-op-poster-plugin`
-- Main publication commit: `9b3acd3e4f3de31210535b14d9829ffcf77037fc`
-- README clarification commit: `760b08f79e820b14557d2838aa4d385d807a0de2`
-- Remote `.codex-plugin/plugin.json` read back with version `0.1.2`.
-- Remote successful-Prompt benchmark read back as the fictional public example.
-- Repository root read back with the manifest, Skills, public assets, parity contract, support, privacy, terms, and changelog files.
-
-## Feishu distribution
-
-- Tutorial document: `https://bytedance.larkoffice.com/docx/PTm0dv6TgoiHOfxMid0cwqTvnGh`
-- Verified revision: `22`
-- Current attachment: `create-ip-op-poster-plugin-0.1.2.zip`
-- Attachment size: `61,597 bytes`
-- Attachment token: `FBaKbemUrocDtuxgFrNcosTSnrh`
-- The outdated `0.1.0` attachment block was removed from the tutorial; only the public-safe `0.1.2` archive remains.
+- Both archives were generated from the commit above; no working-tree file was copied.
+- Archive members passed the parity forbidden-pattern and sensitive-path inspection.
+- The Skill archive contains no tests, design documents, private visual-case rasters, or nested release artifacts.
+- Plugin, Skill, parity, structural, checksum, and clean-extraction smoke tests were completed before publication; only direct results are recorded above.
