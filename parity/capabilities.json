@@ -1,6 +1,7 @@
 {
   "required_files": [
     "SKILL.md",
+    "README.md",
     "agents/openai.yaml",
     "references/workflow.md",
     "references/novice-mode.md",
@@ -19,6 +20,7 @@
   ],
   "exact_mirror_files": [
     "SKILL.md",
+    "README.md",
     "agents/openai.yaml",
     "examples/quick-start.md",
     "examples/chatgpt-starter.md",

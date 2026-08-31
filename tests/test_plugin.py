@@ -93,6 +93,8 @@ def main() -> int:
 
     benchmark = ROOT / "skills" / "create-ip-op-poster" / "examples" / "successful-prompt-benchmark.md"
     visual_library = ROOT / "skills" / "create-ip-op-poster" / "references" / "visual-case-library.md"
+    packaged_readme = ROOT / "skills" / "create-ip-op-poster" / "README.md"
+    check(packaged_readme.is_file(), "packaged Skill must include README.md", errors)
     check("完全虚构" in benchmark.read_text(encoding="utf-8"), "public benchmark must stay fictional", errors)
     visual_text = visual_library.read_text(encoding="utf-8")
     check("original anonymous layout diagrams" in visual_text, "public visual library must stay anonymous", errors)
