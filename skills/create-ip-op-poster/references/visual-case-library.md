@@ -4,11 +4,13 @@
 
 This public library contains only original anonymous layout diagrams and abstract design grammar. It does not contain internal poster originals, client names, creator names, source filenames, project data, or extracted third-party artwork.
 
-Use it to reason about information hierarchy, creator scale, grouping, density, color roles, and commercial-poster structure. Never treat a layout guide as a finished style. Never copy a user's reference title, copy, Logo, seal, distinctive container, character arrangement, or decorative motif.
+Use it only after `PersonMaterialSet` approval to reason about information hierarchy, creator scale, grouping, density, color roles, generative composition, and commercial-poster structure. Never treat a layout guide as a finished style. Never copy a user's reference title, copy, Logo, seal, distinctive container, character arrangement, or decorative motif.
+
+These SVG diagrams are optional relationship explanations only. They can guide a Prompt, but they can never be a Mode B visual base, a complete-poster preview, or a final poster; exporting or rasterizing one to PNG does not turn it into an image-generated artistic base.
 
 ## Retrieval protocol
 
-Choose 2–4 complementary grammar cards for each task:
+Choose 2–4 complementary grammar cards after person approval and before compiling the complete final Prompt:
 
 1. Match the content relationship: one hero, parallel plays, sequence, or matrix.
 2. Match single-creator versus multi-creator structure and approximate subject count.
@@ -32,7 +34,9 @@ If one reference dominates the result, add a structurally different card or rest
 - [central-hero-satellites](../assets/layout-guides/05-central-hero-satellites.svg): one shared IP idea radiates into several expressions.
 - [grouped-creator-clusters](../assets/layout-guides/06-grouped-creator-clusters.svg): each play owns a creator group and related proof.
 
-These diagrams show hierarchy and region relationships only. They do not prescribe colors, typography, slogans, motifs, or exact proportions.
+These diagrams show hierarchy and region relationships only. They do not prescribe colors, typography, slogans, motifs, exact proportions, or protected-layer coordinates. Translate the selected principles into scene, depth, material, light, overlap, and visual-movement language for the image model; do not trace the SVG geometry.
+
+Mode A may use the translated grammar while generating the whole poster. Mode B must first ask an image-generation model for a real PNG, WebP, or JPEG artistic base, then composite protected people, screenshots, Logos, and accurate copy. No guide below may create or substitute for that base.
 
 ## Anonymous grammar index
 

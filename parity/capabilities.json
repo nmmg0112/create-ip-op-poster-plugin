@@ -17,12 +17,38 @@
     "examples/chatgpt-starter.md",
     "examples/successful-prompt-benchmark.md"
   ],
+  "exact_mirror_files": [
+    "SKILL.md",
+    "agents/openai.yaml",
+    "examples/quick-start.md",
+    "examples/chatgpt-starter.md",
+    "references/direction-framework.md",
+    "references/handoff-template.md",
+    "references/layout-grammar.md",
+    "references/material-integrity.md",
+    "references/novice-mode.md",
+    "references/prompt-template.md",
+    "references/qa-checklist.md",
+    "references/visual-director.md"
+  ],
+  "public_overrides": [
+    "references/workflow.md",
+    "references/platform-usage.md",
+    "references/visual-case-library.md",
+    "examples/successful-prompt-benchmark.md"
+  ],
   "forbidden_patterns": [
     "**/.DS_Store",
     "skills/create-ip-op-poster/tests/**",
     "skills/create-ip-op-poster/docs/**",
     "skills/create-ip-op-poster/assets/visual-cases/*.png",
     "skills/create-ip-op-poster/assets/visual-cases/*.jpg"
+  ],
+  "forbidden_legacy_markers": [
+    "composition_pending",
+    "排布通过",
+    "第 <n>/4 步",
+    "four mandatory confirmation gates"
   ],
   "capabilities": [
     {
@@ -43,7 +69,7 @@
     {
       "id": "visual_direction",
       "file": "references/visual-director.md",
-      "markers": ["视觉导演", "美观预检"]
+      "markers": ["视觉导演", "生成式构图语法", "美观预检"]
     },
     {
       "id": "layout_selection",
@@ -56,24 +82,39 @@
       "markers": ["Density planning", "`low`", "`medium`", "`high`"]
     },
     {
-      "id": "direction_gate",
+      "id": "person_material_gate",
       "file": "SKILL.md",
-      "markers": ["Gate 1", "选方向 1"]
+      "markers": ["person_material_pending", "横版白底组合预览图", "透明底人物总图", "独立透明抠图", "人物素材通过"]
     },
     {
-      "id": "cutout_gate",
+      "id": "direction_mode_choice",
       "file": "SKILL.md",
-      "markers": ["Gate 2", "抠图通过"]
+      "markers": ["direction_and_mode_pending", "模式 A｜快速生图", "模式 B｜保真合成", "选方向 1，用模式 B"]
     },
     {
-      "id": "composition_gate",
-      "file": "SKILL.md",
-      "markers": ["Gate 3", "排布通过"]
+      "id": "mode_a_fast_generation",
+      "file": "references/prompt-template.md",
+      "markers": ["【模式 A｜端到端整图生成】", "完整海报预览", "允许发生生成式重绘", "不作像素保真声明"]
     },
     {
-      "id": "prompt_gate",
-      "file": "SKILL.md",
-      "markers": ["Gate 4", "确认生成"]
+      "id": "mode_b_protected_composite",
+      "file": "references/prompt-template.md",
+      "markers": ["【模式 B｜第一段：主视觉位图生成 Prompt】", "【模式 B｜第二段：保护图层合成说明】", "位图底图上覆回"]
+    },
+    {
+      "id": "image_generated_bitmap_base",
+      "file": "references/prompt-template.md",
+      "markers": ["第一项生产动作必须调用生图模型", "PNG、WebP 或 JPEG", "visual_base_created_before_composite"]
+    },
+    {
+      "id": "no_programmatic_fallback",
+      "file": "references/platform-usage.md",
+      "markers": ["没有生图 -> 只交付 Prompt 和素材映射", "绝不回退成 SVG／HTML／PPT 或程序化海报", "不得附上一张由 SVG、HTML、Canvas、PPT、Sharp", "不得再要求用户回复 `确认生成`"]
+    },
+    {
+      "id": "single_formal_generation",
+      "file": "references/prompt-template.md",
+      "markers": ["默认只调用一次正式生图", "不自动消耗第二次生成"]
     },
     {
       "id": "protected_layers",
@@ -83,7 +124,7 @@
     {
       "id": "novice_mode",
       "file": "references/novice-mode.md",
-      "markers": ["新手模式", "每轮最多询问一个", "可直接复制"]
+      "markers": ["新手模式", "每轮最多询问一个", "可直接回复：人物素材通过", "可直接回复：确认生成"]
     },
     {
       "id": "cross_platform_handoff",
@@ -93,12 +134,12 @@
     {
       "id": "prompt_compiler",
       "file": "references/prompt-template.md",
-      "markers": ["版式结构层", "艺术指导层", "受保护图层表"]
+      "markers": ["共享 Prompt", "模式 A 生产段", "模式 B 生产段", "输出与验收段"]
     },
     {
-      "id": "final_qa",
+      "id": "final_visual_qa",
       "file": "references/qa-checklist.md",
-      "markers": ["PASS", "FAIL", "NOT VERIFIABLE", "第一视觉"]
+      "markers": ["PASS", "FAIL", "NOT VERIFIABLE", "像 PPT／画板", "无意义空白", "人物与玩法脱节"]
     }
   ]
 }

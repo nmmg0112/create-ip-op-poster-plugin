@@ -77,6 +77,23 @@ def main() -> int:
         if not plugin_path.is_file():
             fail(f"Plugin missing required file: {relative}", errors)
 
+    required_files = set(contract["required_files"])
+    exact_mirror_files = set(contract["exact_mirror_files"])
+    public_overrides = set(contract["public_overrides"])
+    if exact_mirror_files & public_overrides:
+        fail("exact_mirror_files and public_overrides must be disjoint", errors)
+    if exact_mirror_files | public_overrides != required_files:
+        fail("exact_mirror_files and public_overrides must partition required_files", errors)
+
+    for relative in contract["exact_mirror_files"]:
+        source_path = source / relative
+        plugin_path = skill / relative
+        if not source_path.is_file() or not plugin_path.is_file():
+            fail(f"exact mirror missing: {relative}", errors)
+            continue
+        if source_path.read_bytes() != plugin_path.read_bytes():
+            fail(f"exact mirror differs: {relative}", errors)
+
     if (source / "SKILL.md").is_file() and (skill / "SKILL.md").is_file():
         source_meta = load_frontmatter(source / "SKILL.md")
         plugin_meta = load_frontmatter(skill / "SKILL.md")
@@ -89,6 +106,17 @@ def main() -> int:
         for relative in files:
             if fnmatch.fnmatch(relative, pattern):
                 fail(f"forbidden public file: {relative}", errors)
+
+    active_files = [skill / "SKILL.md", skill / "agents" / "openai.yaml"]
+    active_files.extend(sorted((skill / "references").glob("*.md")))
+    active_files.extend(sorted((skill / "examples").glob("*.md")))
+    for path in active_files:
+        if not path.is_file():
+            continue
+        text = path.read_text(encoding="utf-8")
+        for marker in contract["forbidden_legacy_markers"]:
+            if marker in text:
+                fail(f"forbidden legacy marker in {path.relative_to(skill)}: {marker}", errors)
 
     for capability in contract["capabilities"]:
         path = skill / capability["file"]
