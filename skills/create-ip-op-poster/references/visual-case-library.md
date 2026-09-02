@@ -6,11 +6,11 @@ This public library contains only original anonymous layout diagrams and abstrac
 
 Use it only after `PersonMaterialSet` approval to reason about information hierarchy, creator scale, grouping, density, color roles, generative composition, and commercial-poster structure. Never treat a layout guide as a finished style. Never copy a user's reference title, copy, Logo, seal, distinctive container, character arrangement, or decorative motif.
 
-These SVG diagrams are optional relationship explanations only. They can guide a Prompt, but they can never be a Mode B visual base, a complete-poster preview, or a final poster; exporting or rasterizing one to PNG does not turn it into an image-generated artistic base.
+These SVG diagrams are optional relationship explanations only. They can guide a Prompt, but they can never be a strict-fidelity visual base, a complete-poster preview, or a final poster; exporting or rasterizing one to PNG does not turn it into an image-generated artistic base.
 
 ## Retrieval protocol
 
-Choose 2–4 complementary grammar cards after person approval and before compiling the complete final Prompt:
+Open 2–4 complementary references after person approval and before compiling the execution Prompt. Full user-supplied poster references take priority. When only this public package is available, open 2–4 original guide SVGs for structure and density, and use the current Brief, creator cases, brand assets, or an added user reference for mood; do not pretend a wireframe supplies artistic mood.
 
 1. Match the content relationship: one hero, parallel plays, sequence, or matrix.
 2. Match single-creator versus multi-creator structure and approximate subject count.
@@ -34,9 +34,9 @@ If one reference dominates the result, add a structurally different card or rest
 - [central-hero-satellites](../assets/layout-guides/05-central-hero-satellites.svg): one shared IP idea radiates into several expressions.
 - [grouped-creator-clusters](../assets/layout-guides/06-grouped-creator-clusters.svg): each play owns a creator group and related proof.
 
-These diagrams show hierarchy and region relationships only. They do not prescribe colors, typography, slogans, motifs, exact proportions, or protected-layer coordinates. Translate the selected principles into scene, depth, material, light, overlap, and visual-movement language for the image model; do not trace the SVG geometry.
+These diagrams show hierarchy and region relationships only. They do not prescribe colors, typography, slogans, motifs, exact proportions, or protected-layer coordinates. Translate the selected principles into scene, depth, material, light, overlap, and visual-movement language for the image model; do not trace the SVG geometry. A guide can serve as a structure or density reference, never as the only mood reference.
 
-Mode A may use the translated grammar while generating the whole poster. Mode B must first ask an image-generation model for a real PNG, WebP, or JPEG artistic base, then composite protected people, screenshots, Logos, and accurate copy. No guide below may create or substitute for that base.
+The default `whole_poster` route uses the translated grammar while generating one complete 16:9 poster. When the user explicitly requires exact source preservation, the background `strict_fidelity` route must first ask an image-generation model for a real PNG, WebP, or JPEG artistic base, then composite protected people, screenshots, Logos, and accurate copy. No guide below may create or substitute for that base.
 
 ## Anonymous grammar index
 
@@ -111,7 +111,7 @@ Mode A may use the translated grammar while generating the whole poster. Mode B 
 
 ## Surface-style rule
 
-Colors, materials, containers, and motifs must point back to at least one of these sources:
+Colors, materials, containers, and motifs should be anchored by at least one of these sources:
 
 - explicit Brief wording;
 - audience emotion;
@@ -119,7 +119,7 @@ Colors, materials, containers, and motifs must point back to at least one of the
 - brand rules;
 - the content mechanism itself.
 
-Do not infer `technology = blue neon glass UI`, `food = orange festival`, or any other category cliché without evidence. When evidence is weak, keep the surface system neutral and label the missing input.
+Do not infer `technology = blue neon glass UI`, `food = orange festival`, or any other category cliché without evidence. The visual director may add connective material, light, texture, and rhythm that make the composition artistically complete, provided they do not conflict with the Brief or copy a reference. When mood evidence is weak, ask the one optional visual-preference question or state a Brief-based recommendation; do not default to a blank neutral board.
 
 ## Comparison record
 

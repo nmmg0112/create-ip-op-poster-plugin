@@ -1,7 +1,7 @@
 {
   "name": "create-ip-op-poster",
-  "version": "0.2.0",
-  "description": "Create Chinese IP or OP recruitment posters with person material confirmed first, fast whole-poster generation, or bitmap-first protected compositing.",
+  "version": "0.3.0",
+  "description": "Create Chinese IP or OP recruitment posters with two simple confirmations, concrete content plays, and a default 16:9 whole-poster generation.",
   "author": {
     "name": "nmmg0112",
     "url": "https://github.com/nmmg0112"
@@ -18,8 +18,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "IP/OP 海报制作",
-    "shortDescription": "先确认人物素材，再选快速生图或保真合成",
-    "longDescription": "先处理并确认人物／动物素材，再结合 Brief 选择模式 A 快速整图生成或模式 B 位图先生图、保护图层后合成；完整 Prompt 确认后默认只正式生图一次，并执行视觉与素材 QA。",
+    "shortDescription": "先确认人物和玩法，直接生成16:9横版招商海报",
+    "longDescription": "先确认人物／动物素材，再结合 Brief、案例和可选视觉偏好形成具体玩法方案；用户选定方案后直接生成一张 16:9 横版完整海报。素材必须完全不变时后台自动切换严格保真，并对实际成图执行视觉与素材 QA。",
     "developerName": "nmmg0112",
     "category": "Productivity",
     "capabilities": [
@@ -30,9 +30,9 @@
     "privacyPolicyURL": "https://github.com/nmmg0112/create-ip-op-poster-plugin/blob/main/PRIVACY.md",
     "termsOfServiceURL": "https://github.com/nmmg0112/create-ip-op-poster-plugin/blob/main/TERMS.md",
     "defaultPrompt": [
-      "我会上传人物／动物原图。请先完成人物素材并让我确认，不要先给方向或生成海报。",
-      "人物素材通过后，请基于我的 Brief 给 2—3 个方向，并让我选择模式 A 或模式 B。",
-      "请按当前模式检查完整 Prompt；只有我回复“确认生成”后，才默认正式生图一次。"
+      "我会上传人物／动物原图。请先生成横版白底人物预览，等我回复“人物没问题”后再继续。",
+      "人物通过后，请结合 Brief、案例和我的视觉偏好给出具体玩法方案；我回复“选 1 生成”后直接生成 16:9 横版完整海报。",
+      "如果我明确要求人脸、截图、Logo 或中文完全不变，请在后台切换严格保真，不要让我选择技术模式。"
     ],
     "brandColor": "#D95D39",
     "composerIcon": "./assets/icon.svg",

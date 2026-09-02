@@ -48,7 +48,16 @@
   ],
   "forbidden_legacy_markers": [
     "composition_pending",
+    "direction_and_mode_pending",
+    "prompt_pending",
     "排布通过",
+    "选方向 1，用模式 B",
+    "确认生成",
+    "生成确认卡",
+    "模式 A｜快速生图",
+    "模式 B｜保真合成",
+    "模式 A：快速生图",
+    "模式 B：保真合成",
     "第 <n>/4 步",
     "four mandatory confirmation gates"
   ],
@@ -56,12 +65,12 @@
     {
       "id": "brief_analysis",
       "file": "references/direction-framework.md",
-      "markers": ["User/brief facts", "Evidence-based interpretation", "Open question"]
+      "markers": ["证据边界", "先回答玩法，再谈画面", "ContentPlanCard"]
     },
     {
       "id": "solo_multi_strategy",
-      "file": "SKILL.md",
-      "markers": ["For one creator", "For multiple creators"]
+      "file": "references/direction-framework.md",
+      "markers": ["单人项目", "多人项目", "内容生效机制"]
     },
     {
       "id": "visual_case_retrieval",
@@ -86,47 +95,77 @@
     {
       "id": "person_material_gate",
       "file": "SKILL.md",
-      "markers": ["person_material_pending", "横版白底组合预览图", "透明底人物总图", "独立透明抠图", "人物素材通过"]
+      "markers": ["person_material_pending", "横版白底组合预览图", "人物没问题"]
     },
     {
-      "id": "direction_mode_choice",
+      "id": "two_confirmation_flow",
       "file": "SKILL.md",
-      "markers": ["direction_and_mode_pending", "模式 A｜快速生图", "模式 B｜保真合成", "选方向 1，用模式 B"]
+      "markers": ["默认只有两个确认点", "人物没问题", "选 1 生成"]
     },
     {
-      "id": "mode_a_fast_generation",
-      "file": "references/prompt-template.md",
-      "markers": ["【模式 A｜端到端整图生成】", "完整海报预览", "允许发生生成式重绘", "不作像素保真声明"]
+      "id": "optional_visual_preference",
+      "file": "references/workflow.md",
+      "markers": ["并入人物预览消息", "不得形成第三个等待点", "用户偏好"]
     },
     {
-      "id": "mode_b_protected_composite",
-      "file": "references/prompt-template.md",
-      "markers": ["【模式 B｜第一段：主视觉位图生成 Prompt】", "【模式 B｜第二段：保护图层合成说明】", "位图底图上覆回"]
+      "id": "content_play_preflight",
+      "file": "references/direction-framework.md",
+      "markers": ["玩法标题", "明确成员", "产品/项目自然进入方式"]
     },
     {
-      "id": "image_generated_bitmap_base",
+      "id": "whole_poster_default",
       "file": "references/prompt-template.md",
-      "markers": ["第一项生产动作必须调用生图模型", "PNG、WebP 或 JPEG", "visual_base_created_before_composite"]
+      "markers": ["默认完整海报一次生成", "whole_poster", "formal_generation_count: 1"]
+    },
+    {
+      "id": "strict_fidelity_auto_route",
+      "file": "references/prompt-template.md",
+      "markers": ["strict_fidelity", "只有用户明确要求", "原素材覆回"]
+    },
+    {
+      "id": "exact_post_edit",
+      "file": "references/material-integrity.md",
+      "markers": ["局部图层修改", "不得整图重绘", "non_target_diff_pixel_count"]
+    },
+    {
+      "id": "landscape_default",
+      "file": "SKILL.md",
+      "markers": ["16:9 横版", "Never silently switch to portrait", "portrait delivery channel"]
+    },
+    {
+      "id": "person_layout_routing",
+      "file": "references/layout-grammar.md",
+      "markers": ["`unified-ensemble` 才能使用", "`grouped-by-play`", "`hybrid-hero-groups`"]
+    },
+    {
+      "id": "strict_fidelity_integration",
+      "file": "references/platform-usage.md",
+      "markers": ["锁定画布＋蒙版", "围绕真实素材", "覆回校验"]
+    },
+    {
+      "id": "prompt_information_budget",
+      "file": "references/prompt-template.md",
+      "markers": ["900—1600", "最多约 2200", "不把模板字段逐项机械展开"]
+    },
+    {
+      "id": "actual_final_qa",
+      "file": "references/qa-checklist.md",
+      "markers": ["实际查看最终图片", "像 PPT", "最终无法直接预览或下载"]
     },
     {
       "id": "no_programmatic_fallback",
       "file": "references/platform-usage.md",
-      "markers": ["没有生图 -> 只交付 Prompt 和素材映射", "绝不回退成 SVG／HTML／PPT 或程序化海报", "不得附上一张由 SVG、HTML、Canvas、PPT、Sharp", "不得再要求用户回复 `确认生成`"]
+      "markers": ["没有生图 -> 只交付 Prompt 和素材映射", "程序化信息板", "formal_generation_count: 0"]
     },
     {
       "id": "single_formal_generation",
       "file": "references/prompt-template.md",
-      "markers": ["默认只调用一次正式生图", "不自动消耗第二次生成"]
+      "markers": ["默认只调用一次正式生图", "不自动消耗第二次生成", "formal_generation_count: 1"]
     },
     {
       "id": "protected_layers",
       "file": "references/material-integrity.md",
-      "markers": ["Protected-source model", "Case screenshots", "Logos", "face repair"]
-    },
-    {
-      "id": "novice_mode",
-      "file": "references/novice-mode.md",
-      "markers": ["新手模式", "每轮最多询问一个", "可直接回复：人物素材通过", "可直接回复：确认生成"]
+      "markers": ["Case screenshots", "Logos", "strict_fidelity"]
     },
     {
       "id": "cross_platform_handoff",
@@ -136,12 +175,7 @@
     {
       "id": "prompt_compiler",
       "file": "references/prompt-template.md",
-      "markers": ["共享 Prompt", "模式 A 生产段", "模式 B 生产段", "输出与验收段"]
-    },
-    {
-      "id": "final_visual_qa",
-      "file": "references/qa-checklist.md",
-      "markers": ["PASS", "FAIL", "NOT VERIFIABLE", "像 PPT／画板", "无意义空白", "人物与玩法脱节"]
+      "markers": ["编译原则", "默认完整海报一次生成", "例外路线"]
     }
   ]
 }

@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path(os.environ.get("POSTER_SKILL_SOURCE", ROOT / "skills" / "create-ip-op-poster"))
-EXPECTED_VERSION = "0.2.0"
+EXPECTED_VERSION = "0.3.0"
 PUBLIC_OVERRIDES = [
     "references/workflow.md",
     "references/platform-usage.md",
@@ -54,7 +54,13 @@ def main() -> int:
         for prompt in prompts:
             check(isinstance(prompt, str) and len(prompt) <= 128, "starter prompt exceeds 128 characters", errors)
         if prompts:
-            check("人物" in prompts[0] and "确认" in prompts[0], "first starter prompt must begin with person-material confirmation", errors)
+            prompt_text = "\n".join(prompts)
+            check("人物" in prompts[0] and "人物没问题" in prompts[0], "first starter prompt must begin with the person-material gate", errors)
+            check("选 1 生成" in prompt_text, "starter prompts must expose the second and final confirmation", errors)
+            check("16:9 横版" in prompt_text, "starter prompts must expose the landscape default", errors)
+            check("严格保真" in prompt_text, "starter prompts must explain automatic strict-fidelity routing", errors)
+            for marker in ("模式 A", "模式 B", "确认生成", "prompt_pending", "direction_and_mode_pending"):
+                check(marker not in prompt_text, f"starter prompts contain legacy user gate: {marker}", errors)
     for field in ("composerIcon", "logo"):
         value = interface.get(field, "")
         check(value.startswith("./"), f"interface.{field} must use a relative ./ path", errors)
@@ -64,14 +70,37 @@ def main() -> int:
         (
             manifest_path.read_text(encoding="utf-8"),
             (ROOT / "README.md").read_text(encoding="utf-8"),
+            (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
             (ROOT / "tests" / "openai-submission.md").read_text(encoding="utf-8"),
         )
     )
-    for marker in ("第 1/4 步", "四次确认", "排布通过", "composition_pending"):
+    for marker in (
+        "第 1/4 步",
+        "四次确认",
+        "排布通过",
+        "composition_pending",
+        "direction_and_mode_pending",
+        "prompt_pending",
+        "选方向 1，用模式 B",
+        "确认生成",
+        "生成确认卡",
+        "模式 A｜快速生图",
+        "模式 B｜保真合成",
+        "模式 A：快速生图",
+        "模式 B：保真合成",
+    ):
         check(marker not in active_listing, f"listing contains legacy marker: {marker}", errors)
-    release_docs = active_listing + "\n" + (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
-    for marker in ("人物素材", "模式 A", "模式 B", "0.2.0"):
-        check(marker in release_docs, f"listing missing current marker: {marker}", errors)
+    for marker in (
+        "人物没问题",
+        "选 1 生成",
+        "视觉偏好",
+        "16:9 横版",
+        "默认整图生成",
+        "严格保真",
+        "不得整图重绘",
+        "0.3.0",
+    ):
+        check(marker in active_listing, f"listing missing current marker: {marker}", errors)
 
     contract_path = ROOT / "parity" / "capabilities.json"
     check(contract_path.is_file(), "missing parity/capabilities.json", errors)
@@ -79,17 +108,26 @@ def main() -> int:
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
         check(contract.get("public_overrides") == PUBLIC_OVERRIDES, "public override list changed", errors)
         expected_capabilities = {
-            "person_material_gate",
+            "two_confirmation_flow",
+            "optional_visual_preference",
+            "content_play_preflight",
+            "whole_poster_default",
+            "strict_fidelity_auto_route",
+            "strict_fidelity_integration",
+            "exact_post_edit",
+            "landscape_default",
+            "person_layout_routing",
+            "prompt_information_budget",
+            "actual_final_qa",
+        }
+        forbidden_capabilities = {
             "direction_mode_choice",
             "mode_a_fast_generation",
             "mode_b_protected_composite",
-            "image_generated_bitmap_base",
-            "no_programmatic_fallback",
-            "single_formal_generation",
-            "final_visual_qa",
         }
         capability_ids = {item.get("id") for item in contract.get("capabilities", [])}
-        check(expected_capabilities <= capability_ids, "missing generative-first capability checks", errors)
+        check(expected_capabilities <= capability_ids, "missing novice whole-poster capability checks", errors)
+        check(not (forbidden_capabilities & capability_ids), "legacy mode capabilities remain in parity contract", errors)
 
     benchmark = ROOT / "skills" / "create-ip-op-poster" / "examples" / "successful-prompt-benchmark.md"
     visual_library = ROOT / "skills" / "create-ip-op-poster" / "references" / "visual-case-library.md"
@@ -99,7 +137,10 @@ def main() -> int:
     visual_text = visual_library.read_text(encoding="utf-8")
     check("original anonymous layout diagrams" in visual_text, "public visual library must stay anonymous", errors)
     check("VC01" not in visual_text, "public visual library must not restore private case index", errors)
-    check((ROOT / "scripts" / "build_release.py").is_file(), "missing reproducible release builder", errors)
+    release_builder = ROOT / "scripts" / "build_release.py"
+    check(release_builder.is_file(), "missing reproducible release builder", errors)
+    if release_builder.is_file():
+        check('EXPECTED_VERSION = "0.3.0"' in release_builder.read_text(encoding="utf-8"), "release builder version must be 0.3.0", errors)
 
     public_text_files = [
         manifest_path,
