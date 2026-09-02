@@ -1,15 +1,15 @@
 # Release verification — 0.3.0
 
 Date: 2026-09-02
-Source commit: `e8df476d1730698d30a92c3e07fa7d6f81cd8685` (`e8df476d1730`)
+Source commit: `f87122b32cbeb54690892bacaab72475d4149838` (`f87122b32cbe`)
 Build method: clean-tree `git archive`
 
 ## Archives
 
 | Archive | Bytes | SHA-256 | Members | Inspection |
 |---|---:|---|---:|---|
-| `create-ip-op-poster-plugin-0.3.0.zip` | 83,721 | `d89c7f805d2880002c0911e6415c055ac0981caa7827a5addab352f79cd70eea` | 34 | PASS |
-| `create-ip-op-poster-skill-0.3.0.zip` | 64,423 | `c3ea6a02bfd8ac66773208e0543ed37979bca25ad0cbb4ce038d5e8453c90cd1` | 23 | PASS |
+| `create-ip-op-poster-plugin-0.3.0.zip` | 83,721 | `32c992a75106d607aa0358a46d2cbef0b3433548cf3f770efdbca92d5e45dcd4` | 34 | PASS |
+| `create-ip-op-poster-skill-0.3.0.zip` | 64,423 | `3d81522e1169ea9ed6e6180bebdb631fa0e1d469ef1e5c9465e601ed57189041` | 23 | PASS |
 
 ## Validation results
 
