@@ -24,20 +24,20 @@
     "agents/openai.yaml",
     "examples/quick-start.md",
     "examples/chatgpt-starter.md",
+    "examples/successful-prompt-benchmark.md",
     "references/direction-framework.md",
     "references/handoff-template.md",
     "references/layout-grammar.md",
     "references/material-integrity.md",
     "references/novice-mode.md",
+    "references/workflow.md",
+    "references/platform-usage.md",
     "references/prompt-template.md",
     "references/qa-checklist.md",
     "references/visual-director.md"
   ],
   "public_overrides": [
-    "references/workflow.md",
-    "references/platform-usage.md",
-    "references/visual-case-library.md",
-    "examples/successful-prompt-benchmark.md"
+    "references/visual-case-library.md"
   ],
   "forbidden_patterns": [
     "**/.DS_Store",

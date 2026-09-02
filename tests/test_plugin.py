@@ -15,10 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path(os.environ.get("POSTER_SKILL_SOURCE", ROOT / "skills" / "create-ip-op-poster"))
 EXPECTED_VERSION = "0.3.0"
 PUBLIC_OVERRIDES = [
-    "references/workflow.md",
-    "references/platform-usage.md",
     "references/visual-case-library.md",
-    "examples/successful-prompt-benchmark.md",
 ]
 
 
