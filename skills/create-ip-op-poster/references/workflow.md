@@ -1,185 +1,223 @@
-# Workflow and confirmation gates
+# 两次确认的完整海报工作流
 
-## Contents
+## 目录
 
-1. Operating rule
-2. Intake
-3. Direction gate
-4. Cutout gate
-5. Composition gate
-6. Prompt gate
-7. Production and QA
-8. Rollback
-9. Stage response format
+1. 运行规则
+2. Intake 与人物素材
+3. 内容方案＋生成授权
+4. 正式生成与 QA
+5. 回退
+6. 交接记录
 
-## 1. Operating rule
+## 1. 运行规则
 
-Run the workflow as a state machine. Do useful work within the current stage, then stop at the next gate. Never turn a user's partial reaction into permission to generate the next artifact.
+默认只有两个确认点：
 
-A vague reaction, change request, new attachment, or partial correction is not confirmation. The four protected decisions are:
+1. `人物素材确认`：确认人物／动物身份、数量、原始组合、身体完整性和抠图边缘；
+2. `内容方案＋生成授权`：用户选择一张包含具体玩法和视觉方向的方案卡，该回复同时授权正式生图。
 
-1. What the IP idea and content play are.
-2. Whether every source has been cut out correctly without identity or body loss.
-3. How the confirmed cutouts are grouped, sized, overlapped, and layered.
-4. What exact Prompt will be used for the final poster.
+视觉偏好不是独立确认点，只是可跳过的信息补充。不要让用户选择技术模式，不要增加独立的完整 Prompt、人物位置、线框或版式确认。
 
-Read [novice-mode.md](novice-mode.md) for the default user-facing presentation. A skilled user may request a compact response, but all four decisions still require explicit confirmation.
+```text
+intake
+  -> person_material_pending
+  -> content_plan_pending
+  -> production
+  -> qa
+  -> complete
 
-## 2. Intake
+严格保真但平台能力不足 -> handoff
+```
 
-Start with this low-barrier request:
+在当前阶段先完成有用工作，再等待所需确认。附件、评价、局部修改或含糊回复不能自动视为授权。
 
-> 请发送 Brief 和人物／动物原图。案例截图、Logo、固定文案、报价和合作权益都可以稍后补充，也可以不提供。
+## 2. Intake 与人物素材
 
-### Build a material ledger internally
+### 2.1 先把素材逻辑讲清楚
 
-Assign stable IDs without renaming source files:
+首次请求素材时用普通中文说明：
 
-- `B01`: brief text, document, screenshot, or link summary.
-- `P01...`: person/animal source images.
-- `A01...`: account/homepage screenshots or account descriptions.
-- `C01...`: case screenshots that may appear in the poster.
-- `L01...`: Logos.
-- `T01...`: fixed copy, brand rules, prohibitions, price, rights, or delivery requirements.
-
-For each file record source filename, subject/display name, subject count, type, variant/alternative relationship, visible quality limitations, and intended use. A filename suffix such as `-版本A` or `-备选2` is a file-management marker unless the user explicitly says it is part of the public nickname.
-
-Keep this ledger hidden unless a conflict, missing source, identity ambiguity, or capability limitation changes the result.
-
-### Parse an arbitrary brief
-
-Extract only what is present:
-
-- business context and user insight;
-- IP/project theme, if fixed;
-- eligible directions or scenes;
-- creative request and allowed creator organization;
-- submission requirement, cycle, deadline, and channel;
-- required commercial information;
-- other explicit constraints not covered above.
-
-Keep absent fields empty. Preserve unfamiliar requirements under `other explicit constraints`; do not drop them because they do not match a template. Continue with labeled assumptions whenever safe, and ask at most one result-changing question per round.
-
-## 3. Direction gate
-
-Read `direction-framework.md`. Return 2–3 options that differ in strategy, not only title or palette. Put the recommended option first and explain the recommendation in one plain-language sentence.
-
-End with the direct reply and the optional commercial-information question:
-
-> 可直接回复：选方向 1
+> 人物肖像素材好，整张海报的呈现才会好。清晰、真实、有表现力的原图，才能让人物成为第一视觉，也方便核对阵容和组合关系。
 >
-> 本次海报是否需要呈现报价或合作权益？不需要也可以。
+> 案例图不是装饰。我会从达人的真实内容里提取常用场景、人物关系、叙事方式、笑点／反转和账号记忆点，再把这些写进玩法，避免方案只套行业概念、显得悬浮。
+>
+> 请先发送人物／动物原图；最好再给每位达人 1—3 张代表案例截图。案例不一定放进成品，也可以用账号主页截图、代表作链接或账号介绍代替。Brief、Logo 和固定文案可以现在一起发，也可以之后补。
 
-The standard reply `选方向 1` is explicit confirmation. A custom reply is also valid when it identifies the chosen or merged content and clearly authorizes continuation. Do not accept `挺好`, `可以看看`, `再亮一点`, a new attachment, or a partial correction as a completed gate. Apply the feedback, re-show the affected option, and ask again.
+人物／动物原图是必需项。案例素材强烈建议但不是必需项；没有任何账号或案例证据时仍可继续，但必须明确说明玩法贴合度有限。
 
-## 4. Cutout gate
+### 2.2 建立素材台账
 
-Read `material-integrity.md` before operating on images. This gate evaluates the cutout only; do not decide layout, grouping, overlap, or layer order yet.
+不改原文件名，后台分配稳定 ID：
 
-Display a source-versus-cutout review page:
+- `B01...`：Brief 文本、文档、截图或链接摘要；
+- `P01...`：人物／动物原图；
+- `A01...`：账号主页、账号介绍或代表作链接；
+- `C01...`：案例截图，记录是仅用于分析还是可进入海报；
+- `L01...`：Logo；
+- `T01...`：固定文案、品牌规则、禁用项、报价、权益或交付要求。
 
-1. show each original source beside its transparent-background cutout;
-2. label the stable `Pxx` ID and exact public name;
-3. use a checkerboard or neutral solid background to expose edges;
-4. show the full person/animal when the source permits;
-5. mark uncertain hair, clothing, hand/foot, animal-fur, furniture, and source-edge regions;
-6. check identity, subject count, original combination, and accidental body deletion.
+每个 `Pxx` 记录公开昵称、原文件、独立主体数量、不可拆分的原始组合、版本关系、清晰度限制和用途。文件名后缀默认只是管理信息，除非用户明确要求展示。
 
-If one source fails, redo only that source; keep the confirmed direction. End with:
+### 2.3 创建 `PersonMaterialSet`
 
-> 请确认人物／动物长相、数量、原始组合、身体完整性和抠图边缘。可直接回复：抠图通过
+后台记录：
 
-Only explicit confirmation advances to `composition_pending`. If pixel-preserving cutout capability is unavailable, output the source ledger, exact mask instructions, protected regions, known limitations, and target format, then enter `handoff` without showing a generated approximation.
-
-An individual failure returns only the affected `Pxx` item to `cutout_pending`; already accepted sources do not need to be redone. Accidental body deletion and any changed human face or animal head are hard failures. Never use generative face repair, face completion, or animal-head reconstruction to make a failed cutout look acceptable.
-
-## 5. Composition gate
-
-Use only cutouts confirmed at Gate 2. Read `layout-grammar.md` and choose the presentation mode from the confirmed content relationship:
-
-- unified ensemble;
-- grouped by play;
-- independent cutouts;
-- hero creator plus supporting groups.
-
-Show a complete placement preview, or the smallest preview set that proves:
-
-1. which play/group each person or animal supports;
-2. relative subject sizes;
-3. front/middle/back order and overlap;
-4. clear faces and animal heads;
-5. creator-to-play, case, or scene relationship;
-6. no duplicate subject, hard rectangular source boundary, meaningless hole, or detached person.
-
-End with:
-
-> 请确认人物呈现方式、归属、大小、前后层级和交叠关系。可直接回复：排布通过
-
-Only explicit confirmation advances to `prompt_pending`. If safe layer compositing is unavailable, output the presentation mode, group mapping, target canvas, layer-order sketch, size ratios, and non-negotiable protection rules, then enter `handoff`.
-
-Changing only creator grouping, relative size, overlap, or front/middle/back order returns to `composition_pending`; keep the confirmed cutouts and do not repeat Gate 2 unless a mask or protected source actually changes.
-
-## 6. Prompt gate
-
-Read `prompt-template.md`. Use only the confirmed direction, cutouts, composition, and immutable source text.
-
-Before presenting the Prompt, check:
-
-- every public nickname has a mapped source;
-- every case screenshot has exactly one specified slot unless reuse was requested;
-- fixed copy is verbatim;
-- optional price/rights appear only when requested and supplied;
-- palette logic is tied to this brief;
-- protected person/animal layers match the confirmed composition;
-- screenshot and Logo rules are explicit;
-- negative constraints cover fabrication and reference copying.
-
-Show a short production summary first, then the entire Prompt. The summary cannot replace the Prompt. End with:
-
-> 以上是将实际用于生成／制作海报的完整 Prompt。可直接回复：确认生成
-
-If the user edits any item, show the revised complete Prompt and wait for confirmation again.
-
-## 7. Production and QA
-
-Separate production into:
-
-1. generated/editable background, decoration, containers, and typography plan;
-2. protected person/animal layers exactly as confirmed;
-3. protected case screenshot layers;
-4. protected Logo layers;
-5. final text layers.
-
-Prefer an editable source file when supported. If a platform only produces a flattened image, first prove protected layers can be composited without regeneration; otherwise use the handoff path. Run `qa-checklist.md` against the final artifact, not the Prompt alone.
-
-## 8. Rollback
-
-- Theme, direction, or play changed: return to `direction_pending`; keep only valid source facts.
-- Person/animal source added, removed, replaced, or changed: return to `cutout_pending`; invalidate composition and Prompt.
-- One cutout fails or its mask changes: return only the affected `Pxx` item to `cutout_pending`; keep the confirmed direction and unaffected cutouts, and invalidate composition and Prompt.
-- Grouping, size, overlap, or layer order changes without changing a cutout: return to `composition_pending`; keep confirmed cutouts and invalidate Prompt.
-- Screenshot, Logo, fixed copy, price, or rights changed: return to `prompt_pending` when direction, cutouts, and composition remain valid.
-- Final background/decor feedback only: return to `production`, then rerun affected QA checks.
-- Any changed human face or animal head is a hard failure: discard the affected composite and return to the earliest responsible protected-image stage; never repair, complete, or patch it with generation.
-
-Announce every invalidated confirmation explicitly.
-
-## 9. Stage response format
-
-Start every confirmation response with:
-
-```markdown
-第 <n>/4 步｜<步骤名称>
+```text
+review_white: 横版白底组合预览图
+master_transparent: 与白底预览同排布的透明底人物总图，只供统一群像方案备用
+subjects_transparent: 玩法分组、独立人物、混合结构、景深、遮挡修复、严格保真或局部替换时按需创建
+source_ledger: Pxx 与公开昵称、数量、组合、版本、限制的映射
+approval: 用户原话或 none
 ```
 
-Show only the current understanding, recommended option, information needed for this decision, and one copyable reply. Keep ledgers, capability reports, case comparisons, and layer tables hidden unless a problem makes them necessary.
+多人素材使用：
 
-Use this compact internal/handoff footer when stage tracking must be visible:
+`把以上人物/动物 拼贴成组合形式，有交叠感，不要并列罗列出来，我要做海报用，横版，其他顺序不重要，横版白底，不要改变任何一个人的长相，抠人物图即可 注意人物不能重复，且人物大小调整一致一些`
+
+只向用户展示 `review_white`。后台保留同排布 `master_transparent`，但不把它列成第二份用户交付；它只能用于 `unified-ensemble`。`grouped-by-play`、`independent-cutouts` 和 `hybrid-hero-groups` 必须改用原图或按需 `subjects_transparent`，不能把同排布总图当作人物输入。白底预览只用于检查人物素材，不锁定最终海报的位置、比例、分组或前后层级；不要把白底预览整块放进严格保真成品。
+
+### 2.4 人物预检与确认
+
+展示前逐项检查：
+
+- 每个 `Pxx` 对应正确公开昵称和来源；
+- 每个独立人物／动物只出现一次，无新增、遗漏、重复或错误版本；
+- 人脸、表情、核心发型、动物头部、品种、毛色和标记保持可识别；
+- 不可拆分的原始组合没有被拆散；
+- 身体没有被误删，头发／毛发、手脚和衣服边缘可用；
+- 白底无明显原图硬边、家具残边或无意义缺口。
+
+只展示预览、发现的问题和一句回复。若用户尚未表达颜色或气质偏好，把可跳过的风格问题放在同一条消息里，不另开一轮等待：
+
+> 请确认人物／动物长相、数量、原始组合、身体完整性和边缘。也可以顺手告诉我想要的颜色或感觉，比如清爽浅蓝、暖色活力、自然松弛；不写也没关系，我会结合 Brief 推荐。可直接回复：人物没问题
+
+`人物没问题` 或同等明确回复才进入 `content_plan_pending`。用户只回复人物确认、没有回答风格时，直接由 Brief 和案例推荐，不得再停下来追问。保存用户原话。
+
+## 3. 内容方案＋生成授权
+
+### 3.1 补齐真正影响结果的信息
+
+人物通过后读取已有 Brief、案例、Logo、固定文案、报价和权益。每轮最多询问一个会改变结果的问题：
+
+- Brief 缺失且无法判断项目主题或目标时，先索取 Brief；
+- 用户尚未给出任何颜色或气质偏好时，只能把可跳过的风格问题并入人物预览消息；用户没有回答就直接由 Brief 和人物／案例证据决定，不得形成第三个等待点。
+
+报价和合作权益最多问一次，除非 Brief 强制要求，否则不阻塞方案。
+
+### 3.2 先完成内容玩法预检
+
+每个正式玩法必须同时有：
+
+- `明确成员`；
+- `账号/案例依据`，没有时明确标注证据有限；
+- `具体场景或人物关系`；
+- `动作、冲突、互动或反转` 中至少一种内容机制；
+- `产品/项目自然进入方式`；
+- `海报上的一句短文案`。
+
+单人方案说明这个达人具体做什么；多人方案按真实内容或商业逻辑分组，并让每组玩法明显不同。只有口号、品类列表、人物名单，或“高级感／商业感／科技感”等抽象词时，不得进入正式生成。
+
+### 3.3 做视觉判断，不做独立排版稿
+
+打开 2—4 张互补视觉案例原图，至少覆盖：
+
+- `结构`：阅读路径、区域关系、人物如何进入玩法；
+- `密度`：编号、对齐、颜色编码和证据如何承载；
+- `气质`：颜色关系、材质、标题能量、光影和情绪。
+
+同一张可承担两个角色，但还要选一张结构不同的案例。记录可借鉴的抽象语法、本次必须改变的部分和禁止复制的元素。
+
+把用户视觉偏好与 Brief 共同转译成主色和强调色、材质、光线、景深、氛围、装饰边界和信息密度。发生冲突时，在方案卡里用一句普通中文说明如何调整，不要静默忽略任何一方。
+
+### 3.4 展示两张 `ContentPlanCard`
+
+推荐方案放在第一张，再提供一张在内容机制和整体构图上真正不同的备选。不要只换标题、配色或装饰。
+
+每张卡控制在一屏内，包含：
 
 ```markdown
-当前阶段：<stage>
-已确认：<confirmed decisions or none>
-本轮新增：<materials or decisions>
-仍需确认：<the next gate>
-下一步：<one concrete action after confirmation>
+### 方案 <数字>｜<方案名> <推荐标记或无>
+- 主题：<主题＋海报上的一句短文案>
+- 项目背景：<一到两句>
+- 达人玩法：<逐组写明确成员、依据、场景/关系、内容机制和产品进入方式>
+- 第一视觉：<谁或什么先被看见，以及人物如何进入玩法>
+- 整体构图：<阅读路径、人物模式、信息密度和前中后景>
+- 视觉感觉：<Brief＋用户偏好如何变成颜色、材质、光影和氛围>
+- 案例／Logo：<是否出现、各自作用；没有则删除>
+- 商务信息：<只写已提供且需要出现的内容>
+- 输出：16:9 横版完整招商海报
+- 素材说明：<默认尽量保持原样；或因用户明确要求完全不变而后台严格保真>
 ```
+
+结尾只使用：
+
+> 可直接回复：选 1 生成
+
+用户也可以回复 `选 2 生成`，或在选择时附带小修改。`选 1 生成` 这类明确回复同时完成方向选择、方案确认和正式生图授权，直接进入 `production`；不得再增加其他常规确认。
+
+若用户只提出修改但未授权生成，更新受影响的方案卡并继续停在 `content_plan_pending`。若用户在授权回复里新增“人脸／案例／Logo／数据／固定中文完全不变”等明确要求，后台切到 `strict_fidelity`，能力足够时直接执行，不再要求理解或选择技术路线。
+
+## 4. 正式生成与 QA
+
+### 4.1 后台编译
+
+根据已选择的 `ContentPlanCard` 编译并保存：
+
+```text
+generation_route: whole_poster | strict_fidelity
+execution_prompt: 内部完整执行指令
+formal_generation_count: 0
+```
+
+完整执行 Prompt 默认不展示、不单独等待批准。用户主动要求查看时可以展开，但查看不是生产门槛。
+
+### 4.2 默认完整海报一次生成
+
+默认 `whole_poster`：
+
+- OP／招商主海报固定 `16:9 横版`；只有 Brief 或用户明确说明竖版渠道／适配用途才例外；
+- 第一项正式生产动作就生成包含主题、人物、具体玩法、完整场景、案例／Logo／商务信息的整张海报；
+- `默认完整海报一次生成`，不得先生成空背景、空舞台、留洞底图；不得生成排布稿、SVG、HTML、Canvas、PPT 或程序化信息板；
+- 默认尽量保持人物和案例可识别，但不声称逐像素保真；
+- `默认只调用一次正式生图`，调用后把 `formal_generation_count` 记为 `1`。
+
+只有用户明确要求关键素材完全不变时才在后台使用 `strict_fidelity`。能力不足则按 `handoff` 交付已确认方案、内部 Prompt、素材映射和下一执行要求；不得降级成程序化海报。
+
+正式成图后的精确 Logo、中文、报价、权益、案例或单个元素调整，只做局部图层修改并验证其他区域未变化；不得整图重绘。
+
+### 4.3 检查实际成图
+
+调用 [qa-checklist.md](qa-checklist.md) 查看目标尺寸和高分辨率下的真实最终文件。以下任一项都是硬失败：
+
+- 输出为竖版或比例错误；
+- 没有具体玩法，只有口号、人物名单或品类；
+- `像 PPT`、等权卡片墙、程序化色块页或系统模板；
+- 空背景、同一平面、缺少视觉动势或出现大块无意义空白；
+- 人物与玩法脱节、人物像孤立贴纸；
+- 错脸、漏人、重复、陌生人物、动物错误或严重变形；
+- 案例严重变形、关键信息不可读、中文乱码或 Logo 明显错误；
+- 用户无法打开或预览最终结果。
+
+只有真实成图通过全部硬检查才进入 `complete`。失败时说明具体问题和最小修复范围；不得静默消耗第二次正式生图。
+
+## 5. 回退
+
+- 新增、删除、替换或改变人物／动物来源：回到 `person_material_pending`，人物确认及下游内容失效。
+- 主题、分组、玩法、视觉偏好、整体风格或构图变化：回到 `content_plan_pending`，原人物未变时保留人物确认。
+- 只改最终 Logo、固定中文、报价、权益、案例或单个元素：停在 `production` 做局部替换，保留其他区域。
+- 重新生成整体背景或风格：回到 `content_plan_pending`，更新方案卡后再取得新的生图授权。
+
+明确说明哪些下游决定失效，不要让用户重复未受影响的确认。
+
+## 6. 交接记录
+
+每次明确确认后，或任务转移到另一窗口、Agent、生图工具或合成工具时，按 [handoff-template.md](handoff-template.md) 保存：
+
+- `PersonMaterialSet` 与人物确认原话；
+- Brief、案例依据和视觉偏好；
+- 两张方案卡、用户选择及修改；
+- 具体玩法闭环；
+- `generation_route` 与内部执行 Prompt；
+- `formal_generation_count`；
+- 最终文件、局部修改记录和当前 QA；
+- 一个明确的下一动作。

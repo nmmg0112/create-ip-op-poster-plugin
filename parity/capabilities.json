@@ -1,6 +1,7 @@
 {
   "required_files": [
     "SKILL.md",
+    "README.md",
     "agents/openai.yaml",
     "references/workflow.md",
     "references/novice-mode.md",
@@ -17,6 +18,27 @@
     "examples/chatgpt-starter.md",
     "examples/successful-prompt-benchmark.md"
   ],
+  "exact_mirror_files": [
+    "SKILL.md",
+    "README.md",
+    "agents/openai.yaml",
+    "examples/quick-start.md",
+    "examples/chatgpt-starter.md",
+    "examples/successful-prompt-benchmark.md",
+    "references/direction-framework.md",
+    "references/handoff-template.md",
+    "references/layout-grammar.md",
+    "references/material-integrity.md",
+    "references/novice-mode.md",
+    "references/workflow.md",
+    "references/platform-usage.md",
+    "references/prompt-template.md",
+    "references/qa-checklist.md",
+    "references/visual-director.md"
+  ],
+  "public_overrides": [
+    "references/visual-case-library.md"
+  ],
   "forbidden_patterns": [
     "**/.DS_Store",
     "skills/create-ip-op-poster/tests/**",
@@ -24,16 +46,31 @@
     "skills/create-ip-op-poster/assets/visual-cases/*.png",
     "skills/create-ip-op-poster/assets/visual-cases/*.jpg"
   ],
+  "forbidden_legacy_markers": [
+    "composition_pending",
+    "direction_and_mode_pending",
+    "prompt_pending",
+    "排布通过",
+    "选方向 1，用模式 B",
+    "确认生成",
+    "生成确认卡",
+    "模式 A｜快速生图",
+    "模式 B｜保真合成",
+    "模式 A：快速生图",
+    "模式 B：保真合成",
+    "第 <n>/4 步",
+    "four mandatory confirmation gates"
+  ],
   "capabilities": [
     {
       "id": "brief_analysis",
       "file": "references/direction-framework.md",
-      "markers": ["User/brief facts", "Evidence-based interpretation", "Open question"]
+      "markers": ["证据边界", "先回答玩法，再谈画面", "ContentPlanCard"]
     },
     {
       "id": "solo_multi_strategy",
-      "file": "SKILL.md",
-      "markers": ["For one creator", "For multiple creators"]
+      "file": "references/direction-framework.md",
+      "markers": ["单人项目", "多人项目", "内容生效机制"]
     },
     {
       "id": "visual_case_retrieval",
@@ -43,7 +80,7 @@
     {
       "id": "visual_direction",
       "file": "references/visual-director.md",
-      "markers": ["视觉导演", "美观预检"]
+      "markers": ["视觉导演", "生成式构图语法", "美观预检"]
     },
     {
       "id": "layout_selection",
@@ -56,34 +93,79 @@
       "markers": ["Density planning", "`low`", "`medium`", "`high`"]
     },
     {
-      "id": "direction_gate",
+      "id": "person_material_gate",
       "file": "SKILL.md",
-      "markers": ["Gate 1", "选方向 1"]
+      "markers": ["person_material_pending", "横版白底组合预览图", "人物没问题"]
     },
     {
-      "id": "cutout_gate",
+      "id": "two_confirmation_flow",
       "file": "SKILL.md",
-      "markers": ["Gate 2", "抠图通过"]
+      "markers": ["默认只有两个确认点", "人物没问题", "选 1 生成"]
     },
     {
-      "id": "composition_gate",
-      "file": "SKILL.md",
-      "markers": ["Gate 3", "排布通过"]
+      "id": "optional_visual_preference",
+      "file": "references/workflow.md",
+      "markers": ["并入人物预览消息", "不得形成第三个等待点", "用户偏好"]
     },
     {
-      "id": "prompt_gate",
+      "id": "content_play_preflight",
+      "file": "references/direction-framework.md",
+      "markers": ["玩法标题", "明确成员", "产品/项目自然进入方式"]
+    },
+    {
+      "id": "whole_poster_default",
+      "file": "references/prompt-template.md",
+      "markers": ["默认完整海报一次生成", "whole_poster", "formal_generation_count: 1"]
+    },
+    {
+      "id": "strict_fidelity_auto_route",
+      "file": "references/prompt-template.md",
+      "markers": ["strict_fidelity", "只有用户明确要求", "原素材覆回"]
+    },
+    {
+      "id": "exact_post_edit",
+      "file": "references/material-integrity.md",
+      "markers": ["局部图层修改", "不得整图重绘", "non_target_diff_pixel_count"]
+    },
+    {
+      "id": "landscape_default",
       "file": "SKILL.md",
-      "markers": ["Gate 4", "确认生成"]
+      "markers": ["16:9 横版", "Never silently switch to portrait", "portrait delivery channel"]
+    },
+    {
+      "id": "person_layout_routing",
+      "file": "references/layout-grammar.md",
+      "markers": ["`unified-ensemble` 才能使用", "`grouped-by-play`", "`hybrid-hero-groups`"]
+    },
+    {
+      "id": "strict_fidelity_integration",
+      "file": "references/platform-usage.md",
+      "markers": ["锁定画布＋蒙版", "围绕真实素材", "覆回校验"]
+    },
+    {
+      "id": "prompt_information_budget",
+      "file": "references/prompt-template.md",
+      "markers": ["900—1600", "最多约 2200", "不把模板字段逐项机械展开"]
+    },
+    {
+      "id": "actual_final_qa",
+      "file": "references/qa-checklist.md",
+      "markers": ["实际查看最终图片", "像 PPT", "最终无法直接预览或下载"]
+    },
+    {
+      "id": "no_programmatic_fallback",
+      "file": "references/platform-usage.md",
+      "markers": ["没有生图 -> 只交付 Prompt 和素材映射", "程序化信息板", "formal_generation_count: 0"]
+    },
+    {
+      "id": "single_formal_generation",
+      "file": "references/prompt-template.md",
+      "markers": ["默认只调用一次正式生图", "不自动消耗第二次生成", "formal_generation_count: 1"]
     },
     {
       "id": "protected_layers",
       "file": "references/material-integrity.md",
-      "markers": ["Protected-source model", "Case screenshots", "Logos", "face repair"]
-    },
-    {
-      "id": "novice_mode",
-      "file": "references/novice-mode.md",
-      "markers": ["新手模式", "每轮最多询问一个", "可直接复制"]
+      "markers": ["Case screenshots", "Logos", "strict_fidelity"]
     },
     {
       "id": "cross_platform_handoff",
@@ -93,12 +175,7 @@
     {
       "id": "prompt_compiler",
       "file": "references/prompt-template.md",
-      "markers": ["版式结构层", "艺术指导层", "受保护图层表"]
-    },
-    {
-      "id": "final_qa",
-      "file": "references/qa-checklist.md",
-      "markers": ["PASS", "FAIL", "NOT VERIFIABLE", "第一视觉"]
+      "markers": ["编译原则", "默认完整海报一次生成", "例外路线"]
     }
   ]
 }

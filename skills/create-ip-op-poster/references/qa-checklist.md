@@ -1,168 +1,205 @@
-# QA checklist and failure routing
+# 最终 QA 与失败路由
 
-## Contents
+QA 必须实际查看最终图片、调用记录和原素材，检查实际成图，不能只检查 Prompt 或相信 Agent 自报。只使用：
 
-1. Evidence rule
-2. Process checks
-3. Content checks
-4. Material checks
-5. Visual checks and aesthetic hard failures
-6. Cross-platform and handoff checks
-7. Failure routing
-8. Report format
+- `PASS`：直接证据证明通过；
+- `FAIL`：直接证据证明不符合；
+- `NOT VERIFIABLE`：缺少原图、分辨率、文件、图层、调用记录或差异证据。
 
-## 1. Evidence rule
+`NOT VERIFIABLE` 代表未完成，不能因为“看起来差不多”改成通过。
 
-Use exactly:
+## 流程和调用次数
 
-- `PASS`: direct evidence proves the requirement.
-- `FAIL`: direct evidence contradicts it.
-- `NOT VERIFIABLE`: the artifact, resolution, source, or tool record cannot prove it.
+- 人物素材在内容方案前获得 `人物没问题` 或同等明确批准。
+- 默认只有两个必要决定：人物素材确认；内容方案选择并授权生成。
+- 视觉偏好问题可跳过，不是独立确认点；用户已经给出时没有重复询问。
+- 用户选择的 `ContentPlanCard` 包含具体玩法和视觉结论；`选 1 生成` 或同等回复同时授权正式生图。
+- 没有排布稿确认、面向用户的技术模式选择或独立 Prompt 确认。
+- 默认正式海报生图调用恰好一次；失败后没有静默生成第二次。
+- 人物素材处理不计入“正式海报生图”，但必须单独记录其工具与产物。
+- 没有两张用途相同、构图相同或文件哈希相同的完整海报被当作不同步骤交付。
 
-`NOT VERIFIABLE` is unfinished. Never promote it to pass because the output looks plausible.
+每次生产记录：
 
-Inspect the final artifact at readable resolution and compare it with the source ledger, confirmed direction, confirmed cutouts, confirmed composition, and confirmed Prompt.
+```text
+generation_route: whole_poster | strict_fidelity
+image_generation_model_or_tool
+formal_generation_count
+final_output_path
+final_format
+final_dimensions
+```
 
-## 2. Process checks
+严格保真另记录 `visual_base_path`、`visual_base_format`、`visual_base_created_before_composite` 和 `protected_layer_ids`。
 
-- Gate 1 explicitly confirmed the direction/merge.
-- Price/rights were asked as optional and were not invented.
-- Gate 2 explicitly confirmed the source-versus-cutout review or produced a clearly labeled handoff.
-- Gate 3 explicitly confirmed the creator composition mode, group mapping, size, overlap, and front/middle/back order; or produced a clearly labeled handoff.
-- Gate 4 explicitly confirmed the complete Prompt.
-- Upstream changes invalidated the correct downstream confirmations.
-- A stage handoff receipt exists after every confirmed gate.
+## 正式生图前预检
 
-## 3. Content checks
+下列项目必须全部通过：
 
-- Theme and one-line expression match the confirmed direction.
-- Project background is concise and contains no unsupported claims.
-- The play is the main information body, not a generic slogan.
-- Single-creator work explains what this creator does.
-- Multi-creator work has evidence-based groups, exact members, and a distinct play per group.
-- Creator images, IP theme, concise background, and refined play are all present.
-- Case/data evidence appears only if supplied and space permits.
-- Price, rights, dates, client names, metrics, and collaboration facts are supplied and confirmed.
-- No unconfirmed cooperation mode, live-streaming claim, long category list, or platform feature was added.
+- `PersonMaterialSet.approval` 明确；
+- OP／招商主海报执行参数为 16:9 横版；只有 Brief 或用户明确说明竖版渠道／适配用途才可例外；
+- 主题、主题文案和一到两句项目背景明确；
+- 每个玩法有：明确成员、账号/案例依据、具体场景或人物关系、动作/冲突/互动/反转、产品/项目自然进入方式、海报短文案；
+- 每位达人有且只有一个清楚的主要玩法归属；
+- 无案例时已披露玩法贴合度有限，没有虚构账号机制；
+- 用户视觉偏好已提供，或已在人物确认时跳过并由系统根据 Brief 推荐；不得为此新增等待；
+- 配色、材质、光影和气质说明同时体现用户偏好与 Brief；冲突时有一句调整说明；
+- 实际打开 2—4 张互补原参考图，结构／密度／气质角色和禁止复制元素已记录；
+- 第一视觉、阅读路径、信息密度、人物呈现、前中后景和视觉动势明确；
+- 案例、Logo、报价、权益、数据和合作方式均来自用户材料。
 
-## 4. Material checks
+任一项不满足，留在 `content_plan_pending`，不得消耗正式生图。
 
-### Cutout confirmation
+## 内容检查
 
-- Every required `Pxx` has a source-versus-cutout review page showing the original image and transparent cutout side by side.
-- Every cutout was checked on both a checkerboard and a neutral solid background.
-- Face, hairstyle, hair edge, clothing, hands, feet, animal fur, subject count, and original combination were compared with the source.
-- Body regions missing in the source are labeled and were not generated or completed.
-- No body part, animal, or identity-critical region was accidentally removed.
-- No face or animal head changed; no hard cutout edge was accepted as pass.
-- Gate 2 has an explicit `抠图通过` confirmation covering the accepted cutout set.
+- 主题和主题文案与用户选择的方案一致；
+- 项目背景精炼，不含无依据结论；
+- 具体玩法是信息主体，不是装饰性口号；
+- 单人项目写清达人动作、内容机制和产品进入；
+- 多人项目按证据支持的内容／商业逻辑分组，每组有不同玩法；
+- 最终海报能读出人物、主题、精炼背景和关键玩法；
+- 案例／数据只在用户提供且可读时出现；
+- 未虚构粉丝量、播放量、点赞量、客户、案例、报价、权益、日期、直播或短直能力。
 
-### Creator composition
+## 人物素材检查
 
-- The confirmed mode is exactly one of: unified ensemble, grouped by play, independent cutouts, or hero plus supporting groups.
-- The preview proves relative creator sizes, front/middle/back order, overlap, and face/animal-head safe zones.
-- Every creator is mapped to the correct play, case, evidence, or scene.
-- Every unique subject appears exactly once unless repetition was explicitly approved; there is no duplicate or omission.
-- There is no hard rectangular source boundary, exposed source furniture/background edge, meaningless blank area, or person detached from the intended cluster.
-- Gate 3 has an explicit `排布通过` confirmation covering the accepted preview and layer order.
+- `review_white` 是横版白底组合预览，每个主体或不可分组合出现一次；
+- `master_transparent` 与白底预览排布和数量一致，只在后台保留，并且只用于 `unified-ensemble`；
+- `subjects_transparent` 可以为空；但只要是 `grouped-by-play`、`independent-cutouts` 或 `hybrid-hero-groups`，必须使用原图或按需独立透明素材；
+- 脸、表情、主要发型、动物脸、品种、毛色、识别性花纹、服装、姿势和原始组合可识别；
+- 没有陌生人、遗漏、重复、错误变体、身体意外删除、生成式补全、家具残边、硬矩形、白边或大空洞；
+- 白底预览未被当作最终排布或整块白色矩形贴进海报；
+- 最终每个主体与正确玩法相连，脸和动物头部没有被文字或装饰遮挡。
 
-### People and animals in the final artifact
+## 默认整图生成检查
 
-- Unique creator/account count matches the ledger.
-- Creator-presentation mode matches the confirmed layout: unified, grouped, independent, or hybrid.
-- Every creator is visually mapped to the correct play/group; no forced all-person ensemble appears when grouped placement was confirmed.
-- Visible person/animal count matches the chosen source combination.
-- No duplicate, omission, stranger, split combination, or alternative miscount.
-- Faces, hair, expressions, clothing, body, and poses match the source.
-- Animal species, coat color, body, pose, and pairings match the source.
-- Cutouts were made by masking/segmentation, not generative redraw.
-- Proportions remain natural and no face/animal subject is covered.
-- Public nicknames omit file-management suffixes unless explicitly approved.
+- 生图模型一次接收已确认人物、案例、Brief、玩法、视觉方向和固定信息；
+- 输出符合批准画幅；未批准竖版渠道／适配例外时，是一张完整 16:9 横版海报，不是空背景、排布稿或中间预览；
+- 对人物、截图、Logo 和中文只声明“尽量保持”，没有像素保真承诺；
+- 明显错脸、漏人、重复、陌生人、动物错误、案例乱码、虚构数据或 Logo 严重变形均为 `FAIL`；
+- 用户明确要求素材完全不变却仍走默认整图路线，直接 `FAIL` 并路由到严格保真。
 
-### Case screenshots
+## 严格保真检查
 
-- Every specified `Cxx` appears exactly in its mapped module.
-- Complete screenshot bounds and meaningful content are visible.
-- Text, titles, images, and data match the source.
-- No crop, recolor, repair, rewrite, fabricated metric, or duplicate use.
+### 艺术底图与先后顺序
 
-### Logos
+- 第一项正式生产动作调用生图模型并落盘真实 PNG、WebP 或 JPEG；有蒙版能力时允许保护素材先出现在锁定输入画布，但正式视觉必须由生图模型在未保护区域完成；
+- 文件签名、格式、尺寸和来源可验证；
+- 底图有完整场景、玩法关系、材质、光影、前景、中景、背景、装饰语言和视觉动势；
+- 底图不是空背景、留洞页、线框、头像网格、等权卡片墙、PPT 信息板或代码渲染页；
+- SVG、HTML、Canvas、PPT、Sharp、固定矩形或网格没有创建或替代底图；
+- 艺术位图存在后，原保护素材被再次覆回校验；蒙版输入画布不算程序化视觉底图。
 
-- Every specified `Lxx` appears once in its mapped position.
-- All Logo elements, text, colors, and internal relationships match the source.
-- Logo aspect ratio is preserved; visual-size normalization does not stretch it.
+任何来源为程序绘图的底图都是硬 `FAIL`，改成 `.png` 后缀也不合格。
 
-## 5. Visual checks
+### 保护素材
 
-- The first visual focus (`第一视觉`) is explicit and matches the confirmed direction.
-- Title, creator, play module, and evidence use visibly different weights instead of equal-sized treatment.
-- Palette is harmonious and justified by this theme, industry, season, or node.
-- Surface style belongs to this brief and is not a default seasonal, poetic, technology-blue, neon-interface, or prior-project carryover.
-- Creators are the first visual focus when required and are larger than case screenshots.
-- Theme and content play are readable at target viewing size.
-- Layout follows the confirmed region allocation and people-side placement.
-- Treat wrong creator-side placement (for example, people on the left when the confirmed layout requires a right-side hero) as a hard layout failure.
-- Group modules and creator attribution can be understood quickly; every creator is visibly connected to the correct play.
-- White space is sufficient; every major blank area has a focusing, separation, breathing, or eye-guidance purpose; essential copy is not reduced to dense small text.
-- No hard rectangular source boundary, exposed furniture edge, or detached creator weakens the composition.
-- Foreground, middle ground, and background are distinguishable, and subject overlap creates depth without blocking faces or animal heads.
-- Repeated peer modules have a stable rhythm; non-peer content is not forced into identical weight.
-- Safe margins hold; text does not press against faces; screenshots are not clipped.
-- Decorations support the confirmed visual premise and remain subordinate.
-- No distinctive title, composition, Logo, seal, or decorative system was copied from a reference.
+- 每个 `Pxx` 使用批准的透明人物总图或按需独立抠图，数量、比例和身份正确；
+- 每个 `Cxx` 使用完整原截图，文字、画面、数据和边界与源文件一致；
+- 每个 `Lxx` 使用原文件，元素、文字、颜色、比例和内部关系不变；
+- 每个准确 `Txx` 逐字正确且可读；
+- 无生成式修脸、换脸、补身体、改姿势、改服装、改动物或重绘截图／Logo；
+- 即使素材保真，最终像 PPT 或人物贴纸也仍然失败。
+- 人物、案例和 Logo 与场景有可见的接触面、前后遮挡或光线关系；明显悬浮、硬贴边或与玩法空间断开均为 `FAIL`。
 
-### Aesthetic hard failures
+## 精确后期检查
 
-Any item below is a hard `FAIL`, even if all required text and assets are present:
+添加／替换 Logo、准确文字、报价、权益、案例或移动单个元素时，只做局部图层修改，不得整图重绘：
 
-- The first visual focus (`第一视觉`) cannot be identified.
-- A large meaningless blank area (`无意义空白`) has no focusing, separation, breathing, or eye-guidance purpose.
-- A creator is detached from the play they are meant to support (`人物与玩法脱节`).
-- People or animals float like isolated stickers instead of participating in a scene, module, cluster, or deliberate editorial relationship.
-- A title or decoration covers a face or animal head.
-- The layout has no foreground, middle ground, and background relationship.
-- Content that is not equivalent is incorrectly designed with identical visual weight.
-- The visual style does not match the confirmed direction.
-- The output silently reuses autumn, technology-blue, neon-interface, or another previous-project formula without support from the current brief.
-- The output copies a reference case's (`参考案例`) distinctive title, container, Logo, seal, decoration, or concrete composition.
-- A confirmed grouped or independent creator treatment is silently changed into an all-person ensemble.
+- 没有再次调用整图生图；
+- 只新增、替换或移动目标独立图层；
+- 修改前后文件均存在；
+- 差异图、遮罩或等价证据表明目标区域及必要边缘之外没有变化；
+- 人物、背景、案例、其他文字和其他 Logo 未改变。
 
-Aesthetic repair never overrides material safety. Do not regenerate or repaint a person, animal, screenshot, or Logo to fix one of these failures.
+非目标稳定性无法证明时记 `NOT VERIFIABLE`，不能写通过。
 
-## 6. Cross-platform and handoff checks
+精确后期回执至少记录：
 
-- The platform loaded the common `SKILL.md` and relevant references, not a divergent logic fork.
-- The capability assessment records whether protected pixels can be preserved.
-- When capability is insufficient, the output clearly says `handoff`, contains the layer map and Prompt, and does not claim a final preserved poster.
-- A new agent can resume from the handoff without the user repeating confirmed choices.
+```text
+edit_target_region
+pre_edit_image
+post_edit_image
+allowed_difference_mask
+non_target_diff_pixel_count
+formal_generation_count
+```
 
-## 7. Failure routing
+必须保存前后图像差异证据；`non_target_diff_pixel_count` 应为 0，或只包含事先声明的必要边缘抗锯齿像素。
 
-| Failure | Return to |
+## 视觉检查
+
+必须直接打开最终图片，以目标观看大小和高分辨率分别检查：
+
+- 第一视觉一秒内可识别；
+- 人物或关键场面、主题、玩法、案例和合作信息有明显大小层级；
+- 人物尺寸没有被大段文字压过；
+- 人物通过动作、视线、距离、交叠、场景物件、光线或容器关系与玩法连接；
+- 前景、中景、背景可区分，画面不是一个平面；
+- 中高密度信息能按主题、玩法和证据快速扫描；
+- 每块主要留白用于聚焦、分隔、呼吸或引导；
+- 配色和视觉语言符合用户偏好与当前 Brief，不套历史项目或行业刻板印象；
+- 主题、关键玩法、昵称和必要证据在目标尺寸下可读；
+- 参考案例只被借鉴抽象语法，没有复制标题、Logo、专属容器、人物排布或标志性装饰；
+- 最终文件能在对话中直接预览并下载／使用。
+
+### 美学硬失败
+
+以下任一项直接 `FAIL`：
+
+- 不是用户明确要求的比例，默认任务却生成竖版或 3:4；
+- 成品像 PPT／画板、网页后台、系统字体信息页或规则色块页；
+- 只有主题和背景而无玩法；
+- 等权卡片、头像矩阵或固定矩形把所有内容压平；
+- 只有主题和漂亮背景，没有具体玩法；
+- 第一视觉无法识别；
+- 没有前中后景，或所有内容处于同一平面；
+- 存在大块无意义空白或空科技舞台；
+- 人物与玩法脱节，像孤立贴纸；
+- 标题、装饰或前景物遮住脸／动物头部；
+- 必要主题、玩法、昵称或证据不可读；
+- 用户要求“蓝色清爽”却变成冷硬霓虹科技套壳，且没有 Brief 依据；
+- 复制参考图的独特构图或品牌元素；
+- 最终无法直接预览或下载。
+
+## 重复输出检查
+
+对所有“完整海报”产物和最终文件计算哈希并比较：
+
+- 两个不同步骤交付的完整海报哈希相同，判 `FAIL`；
+- 两张图虽哈希不同但构图、内容和用途相同，仍需查正式生图调用记录，不能仅凭不同哈希通过；
+- 不把人物白底预览计为完整海报；
+- 默认流程本来就不应生成排布稿或完整海报中间版。
+
+## 失败路由
+
+| 失败 | 返回 |
 |---|---|
-| Wrong brief interpretation, theme, grouping, or play | `direction_pending` |
-| Failed cutout, accidental body deletion, changed face/animal head, or bad mask | affected `Pxx` in `cutout_pending` |
-| Wrong creator mode, grouping, relative size, overlap, layer order, detached subject, or meaningless hole with valid cutouts | `composition_pending` |
-| Missing/wrong asset mapping, fixed copy, price/rights, palette instruction, or aesthetic constraint | `prompt_pending` |
-| Wrong first visual, content hierarchy, visual premise, or density already present in the confirmed direction | `direction_pending` |
-| Background/layout/decor/composite execution failure | `production` |
-| Evidence too weak to verify protected pixels | `handoff` or a capable editing tool |
+| 人物新增、替换、遗漏、重复、身份或边缘失败 | `person_material_pending` |
+| Brief、玩法、分组、视觉偏好合成、第一视觉或比例错误 | `content_plan_pending` |
+| 没有生图能力 | `handoff`，只交付 Prompt／素材映射 |
+| 默认整图执行偏离已选方案 | `production`，报告失败；不自动重生 |
+| 严格保真底图来源或先后顺序失败 | `production` 或能力不足时 `handoff` |
+| 保护素材改变或遗漏 | 重做确定性合成，不重绘整图 |
+| PPT 感、无玩法、空背景、弱层级或人物玩法脱节 | 执行漂移返回 `production`；方案本身有问题返回 `content_plan_pending` |
+| 精确后期非目标区域变化 | 从原成稿重新做目标图层修改 |
 
-Do not repair a protected-source failure by regenerating the whole image.
-Never repair a human face or animal head with generation. Return to the affected cutout or composition stage and rebuild from the protected source.
+不能用整图重绘修复受保护的人脸、动物、截图、Logo 或准确中文。
 
-## 8. Report format
+## 报告格式
 
 ```markdown
-## QA result
+## QA 结果
 
 Overall: <PASS | FAIL | NOT VERIFIABLE>
+Generation route: <whole_poster | strict_fidelity>
+Formal generation count: <整数>
 
-| ID | Requirement | Result | Evidence | Return stage/action |
+| ID | Requirement | Result | Direct evidence | Return/action |
 |---|---|---|---|---|
-| QA-01 | <exact requirement> | <status> | <file/layer/visual comparison> | <action or none> |
+| QA-01 | <要求> | <状态> | <文件/尺寸/调用/图像对比> | <动作或 none> |
 
-Hard failures: <count and summary>
-Unverifiable items: <count and required evidence>
-Next action: <one concrete step>
+Hard failures: <数量与摘要>
+Unverifiable items: <数量与所缺证据>
+Next action: <唯一下一步>
 ```

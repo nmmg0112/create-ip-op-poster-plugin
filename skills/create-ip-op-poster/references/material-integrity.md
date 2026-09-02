@@ -1,174 +1,142 @@
-# Material integrity rules
+# 素材完整性规则
 
-## Contents
+人物素材准备和最终海报生产是两件事。人物阶段必须严格保持身份；最终海报默认由生图模型尽量保持素材，只有用户明确要求完全不变时才启用严格保真合成。
 
-1. Protected-source model
-2. Material ledger
-3. People and animals
-4. Case screenshots
-5. Logos
-6. Creator composition confirmation
-7. Capability decision
-8. Preservation evidence
-9. Cutout confirmation page
+## 素材台账
 
-## 1. Protected-source model
+每个原文件使用稳定编号，不改原文件名：
 
-Use one of two declared modes:
+| ID | Source filename | Public name | Type | Subjects | Variant relation | Use status | Limitation |
+|---|---|---|---|---:|---|---|---|
 
-- `strict-preserve` (default): treat people, animals, screenshots, and Logos as immutable source pixels. The task is compositing, not re-illustration.
-- `identity-locked-blend` (explicit opt-in): keep identity-critical regions immutable while allowing generative cleanup only outside them. Use this when the user accepts non-face reconstruction to achieve a unified group image.
+- `Pxx`：人物／动物；
+- `Axx`：账号主页或账号介绍；
+- `Cxx`：案例截图；
+- `Lxx`：Logo；
+- `Txx`：固定文案、报价、权益或其他不可擅改信息。
 
-Screenshots and Logos always stay in strict-preserve mode. Never silently switch modes.
+同一达人的备用照片记为变体，不算新达人。不可分的多人、人物＋宠物或多动物组合保留原始关系。文件名后缀默认只是文件管理信息，不能直接写进公开昵称。身份、重复、遗漏或名称映射未解决时停止。
 
-## 2. Material ledger
+## `PersonMaterialSet`
 
-Use one row per source file:
+创意方向前先建立：
 
-| ID | Source filename | Public name | Type | Subjects | Variant relation | Use status | Layer ID | Limitation |
-|---|---|---|---|---:|---|---|---|---|
+```text
+review_white: 横版白底组合预览图
+master_transparent: 与预览同排布的透明底人物总图，只供统一群像方案备用
+subjects_transparent: 玩法分组、独立人物、混合结构、单独移动、修复遮挡或局部替换时按需生成
+source_ledger: Pxx、公开昵称、数量、变体、原始组合和限制
+approval: 用户原话或 none
+```
 
-Rules:
+多人物使用用户确认过的原指令，不润色：
 
-- Count unique creator accounts/combinations and visible subjects separately.
-- Mark alternate photos of the same creator as variants, not new creators.
-- Preserve multi-person/pet combinations unless the user explicitly supplies separable sources and requests separation.
-- Remove file-management suffixes from public names only after distinguishing them from the real nickname.
-- Stop on an unresolved duplicate, omission, or name-to-source conflict.
+```text
+把以上人物/动物 拼贴成组合形式，有交叠感，不要并列罗列出来，我要做海报用，横版，其他顺序不重要，横版白底，不要改变任何一个人的长相，抠人物图即可 注意人物不能重复，且人物大小调整一致一些
+```
 
-## 3. People and animals
+这条指令只用于人物素材审核，不授权换脸、补身体、增加主体或锁定最终海报排布。
 
-### Allowed
+默认只展示一张 `review_white` 给用户。`master_transparent` 是同一次素材准备的后台产物，不增加确认点，但只能用于 `unified-ensemble`；只要最终方案按玩法拆分、独立摆放或采用主角＋分组，就必须使用原图或 `subjects_transparent`。`subjects_transparent` 不是面向用户的默认交付，也不增加确认点。
 
-- remove only the background;
-- refine the alpha mask without painting new identity pixels;
-- proportionally scale;
-- move;
-- change front/back layer order;
-- place a non-destructive shadow behind the protected cutout when it does not cover or recolor the subject.
+## 人物素材 QA
 
-### Conditionally allowed in `identity-locked-blend`
+要求直接检查：
 
-Only after explicit user authorization:
+- 每个唯一人物／动物或不可分组合只出现一次；
+- 无陌生主体、遗漏、重复或错误变体；
+- 脸、五官、表情、发际线和主要发型保持原样；
+- 动物的脸、品种、毛色和识别性花纹保持原样；
+- 服装、姿势和原始组合关系可识别；
+- 身体没有被意外删除，原图没有的身体部分也没有被虚构补全；
+- 头发、毛发、手脚、服装边缘可用；
+- 交叠不遮脸，也不遮挡动物头部；
+- 没有家具残边、硬矩形、白边或大块透明空洞；
+- 白底预览和透明总图的主体数量与排布一致。
 
-- delete or hide lower limbs, off-frame fragments, furniture, or source-background pieces that disrupt the composition;
-- cover non-core body regions with another source layer;
-- reconstruct small missing clothing/body-edge transitions outside locked identity masks;
-- harmonize restrained light, color temperature, contact shadow, and edge treatment outside locked regions;
-- use a user-approved reference for broad three-tier/stage composition grammar.
+允许的操作只有去背景、细化蒙版、等比缩放、移动、前后层级和不覆盖主体的非破坏性阴影。不得使用生成式换脸、修脸、美颜、换发型、换服装、改姿势、身体补全、动物重绘、拉伸或卡通化。
 
-Keep human faces, facial features, expression, hairline/core hairstyle, and animal faces/recognizable coat markings locked. Preserve subject count and identity. Do not describe a blended result as pixel-preserved or original-pixel-only.
+如果唯一可用的处理方式会重新生成脸或动物头部，能力不足，输出人物素材交接，不得继续创意和正式海报。
 
-### Forbidden
+向用户说明人物确认只核对长相、数量、完整性、大小、交叠和边缘，不代表最终海报排布。等待 `人物没问题` 或同等明确回复。
 
-- generative cutout recreation, face repair, face swap, beauty filter, skin smoothing, body completion, relighting that repaints the subject, clothing changes, pose changes, expression changes, hair changes, stylization, cartoonization;
-- changing animal species, coat, body, pose, accessories, or original pairing;
-- mirroring when it changes visible text, asymmetrical identity cues, or user intent;
-- stretching, non-proportional resizing, face obstruction, duplicate use, hidden subject, invented stranger;
-- presenting an approximation as `原脸保真`.
+## 白底预览不是最终布局
 
-In authorized blend mode, face repair/swap, beauty edits, expression changes, new subjects, species/coat changes, and screenshot/Logo regeneration remain forbidden.
+`review_white` 不锁定人物最终的位置、大小、分组、层级或遮挡。最终海报可以：
 
-Prefer deterministic segmentation, path/mask extraction, or manual masking. If the only available action is an image-generation/edit prompt that can resynthesize the source, treat the capability as insufficient.
+- 让全部人物形成一个主群像；
+- 按玩法拆分到不同场景；
+- 用一个人物做主视觉，其他人物分组辅助；
+- 在确有需要时使用独立透明抠图重新组织。
 
-## 4. Case screenshots
+任何最终构图都必须保证每个批准主体出现一次、人物与所属玩法相连、脸和动物头部安全、没有暴露原图残边或贴纸式悬浮。
 
-Keep each `Cxx` as one complete rectangular layer.
+## Case screenshots
 
-Allowed:
+案例图首先用于分析账号真实场景、人物关系、叙事、笑点、反转和记忆点，不一定进入海报。进入严格保真成图时，每张 `Cxx` 作为完整矩形原图层：
 
-- proportional scale;
-- movement;
-- a border, corner radius mask, or shadow outside the image when no content is cut off;
-- placement inside a larger frame while the full screenshot remains visible.
+允许：等比缩放、移动，在不裁内容的前提下增加圆角外框或阴影。
 
-Forbidden:
+禁止：裁切、透视扭曲、改色、模糊、AI 重绘、改字、改数据、修复文字、虚构点赞／播放／粉丝／客户数据或遮挡有意义内容。原图太小就请求更清晰版本，不能生成修复。
 
-- crop, perspective warp, recolor, blur, content-aware fill, AI upscale that rewrites text, text replacement, data replacement, retouching, invented like/play/fan/customer numbers;
-- hiding the screenshot's title or data beneath another layer;
-- recreating a screenshot from its description.
+默认整图生成时只承诺尽量保持案例；出现明显乱码、错字、虚构数据或严重变形必须在 QA 中报告，不能声称原图保真。
 
-If text is unreadable because the supplied file is too small, request a clearer original. Do not repair it with generation.
+## Logos
 
-## 5. Logos
+严格保真与精确后期必须保留 Logo 的图形、文字、边框、标语、颜色和内部关系。只允许去背景、等比缩放、移动和排列。两个 Logo 需要视觉等大时，按有效包围盒归一，不得拉伸、融合、漏元素或重新生成。
 
-Keep all marks, symbols, taglines, borders, and internal spacing in the supplied Logo.
+默认整图生成中 Logo 可能被重绘。只有用户明确说 Logo 必须原样、准确或完全不变时，才进入严格保真，或在成图后把原 Logo 作为独立图层局部覆回；不得仅凭“正式提报”自行推断为像素级硬要求。
 
-Allowed: background removal, proportional scale, movement, and left/right or top/bottom arrangement. When two Logos must be equal in visual size, normalize their bounding boxes without stretching either one.
+## 两条生成路线的保真边界
 
-Forbidden: redraw, omit an element, recolor without an explicit brand rule, rewrite text, fuse the Logos, or generate a new mark.
+### `whole_poster`（默认）
 
-## 6. 人物排布确认 (Creator composition confirmation)
+生图模型把人物、案例、Logo、中文和完整视觉世界一次生成。必须提前用一句普通中文说明：会最大程度保持人物和案例，但可能产生细节变化，不承诺逐像素保真。
 
-Choose one presentation mode before previewing:
+默认路线仍需检查明显的错脸、漏人、重复、陌生人、动物错误、截图乱码和虚构数据；发现时判定失败，不得因为“生成式”而忽略。
 
-- **统一群像 (unified ensemble):** all people and animals jointly express one shared promise;
-- **按玩法分组 (grouped by play):** each compact protected group stays next to its own play, case evidence, or scene;
-- **独立人物 (independent cutouts):** protected cutouts occupy separate positions when the layout does not require a combined ensemble;
-- **主视觉人物＋辅助分组 (hero plus supporting groups):** one creator or compact hero group carries the first visual focus, while every other creator remains attached to the correct supporting module.
+### `strict_fidelity`（明确要求时）
 
-Do not require a unified ensemble when creators support different plays. For any preview:
+第一项正式生产动作必须由生图模型生成真实 PNG、WebP 或 JPEG 艺术底图。优先先把保护素材按最终计划位置做成内部锁定画布，用蒙版锁住人物、案例、Logo 和准确文字的像素，只让生图模型在未保护区域生成完整场景、玩法关系、材质、光影、前中后景和视觉动势；随后再用原素材覆回一次校验像素。这样生成的是围绕真实素材生长的完整位图环境，不是空背景。若平台不支持蒙版，才退回“艺术底图先生成、原素材后覆回”，并必须重点检查贴纸感和接触关系。
 
-- 16:9 horizontal white canvas;
-- all unique subjects included once;
-- creator sizes visually coordinated while proportions remain natural;
-- composition uses front/back overlap rather than an even lineup inside each intended cluster;
-- intentional front/middle/back order and real overlap;
-- **人脸和动物头部安全区：** no identity-critical region is covered;
-- exact source appearance retained;
-- front/back order chosen by the confirmed idea unless the user fixes it;
-- **重复检查：** every unique subject is used exactly once unless repetition was explicitly approved;
-- **遗漏、硬矩形边界和无意义空白检查：** no omitted subject, exposed furniture/background edge, meaningless hole, or person detached from the intended cluster;
-- compact spacing: when authorized, an adjacent confirmed person/animal layer may cover a removable non-core source edge, but never a face, animal head, or required body cue;
-- each creator visibly connected to the confirmed play, case, evidence, or scene.
+无论平台能力如何，底图都不能是 SVG、HTML、Canvas、PPT、Sharp、线框、固定矩形、网格、空背景或留洞页。底图应包含可与人物发生关系的台面、地面、景物、光路和前景遮挡等非保护内容；合成时可从底图恢复非破坏性的前景遮挡、接触阴影和边缘衔接，但不得改写保护素材内部像素、遮脸或遮挡截图有效信息。
 
-For `grouped-by-play`, return one preview per group or a full-board proof and map every creator to exactly one play unless the user explicitly approves repetition. For every mode, show a full-board preview or the smallest preview set that proves the relationships, plus a layer map. A preview alone cannot prove no duplicate or omission. Do not generate the final Prompt until the user explicitly replies `排布通过` or gives an equally explicit confirmation.
+位图落盘并记录来源后，才可把允许的 `master_transparent`／按需 `subjects_transparent`、完整案例 `Cxx`、原 `Lxx` 和准确 `Txx` 覆回。确定性工具只负责蒙版、等比缩放、位置、层级、非破坏性接触阴影、从艺术底图恢复的前景遮挡、文字栅格化、格式转换、导出和验证，不得补画主视觉或改写保护素材内部像素。
 
-For a handoff-only creator-presentation specification, include mode, group mapping, canvas size, each layer ID, approximate `x/y/width` as percentages of the canvas, z-order, mask notes, overlap notes, and face-safe zones.
+## 精确修改
 
-## 7. Capability decision
+成图后添加 Logo、改准确中文／报价／权益、换案例或只移动一个元素时：
 
-Before editing, answer:
+- 只做局部图层修改；
+- 不得整图重绘，不得把整张成稿送回生图模型；
+- 保存修改前后文件；
+- 保存前后图像差异，用像素差异、遮罩差异或等价直接证据证明非目标区域未变；
+- 无法证明时记为 `NOT VERIFIABLE`，不能写 `PASS`。
 
-1. Can the tool remove the background without resynthesizing the subject?
-2. Can it keep screenshots and Logos byte/pixel preserved as independent layers?
-3. Can the result be inspected at sufficient resolution?
+记录：
 
-In `strict-preserve`, if any answer is `no` or `unknown`, do not promise final preservation. Produce the confirmed creative plan plus execution handoff.
+```text
+edit_target_region
+pre_edit_image
+post_edit_image
+allowed_difference_mask
+non_target_diff_pixel_count
+formal_generation_count
+```
 
-In `identity-locked-blend`, also answer:
+## 生产证据
 
-4. Can identity-critical regions be locked or restored independently?
-5. Can every face/animal head be inspected at useful resolution after blending?
-6. Can the output be clearly labeled as blended rather than pixel-preserved?
+人物阶段记录源尺寸、输出尺寸、主体数量、Pxx 映射、处理方式、边缘限制和批准原话。严格保真路线另记录：
 
-If any blend-mode answer is `no` or `unknown`, stay in strict-preserve or hand off.
+```text
+generation_route: strict_fidelity
+visual_base_path
+visual_base_format
+image_generation_model_or_tool
+visual_base_created_before_composite
+protected_layer_ids
+formal_generation_count
+final_output_path
+```
 
-## 8. Preservation evidence
-
-Record:
-
-- source and output dimensions;
-- unique-subject counts before/after;
-- layer map;
-- source checksum for each screenshot and Logo when files are available;
-- whether people/animals were processed by segmentation/mask or generative editing;
-- visible edge limitations;
-- reviewer result.
-
-For `identity-locked-blend`, additionally record the user authorization, edited-region description, locked-region list, face/animal-head comparison sheet, and any region that could not be verified.
-
-For screenshots and Logos, a checksum of the source file plus confirmation that the original file is embedded as the layer is stronger evidence than visual similarity. For a person mask, compare the retained foreground against the source and inspect faces at high resolution.
-
-## 9. 抠图确认页 (Cutout confirmation page)
-
-Gate 2 reviews each cutout by itself. Do not combine this review with creator grouping or poster composition.
-
-- **原图与透明底抠图并排：** show both with the same stable `Pxx` ID and exact public nickname.
-- **棋盘格检查：** inspect the cutout once on a checkerboard background and once on a neutral solid background. A white-only preview is insufficient evidence for pale clothing, hair, or animal fur.
-- Compare the face, facial features, expression, hairstyle, hair edges, clothing, hands, feet, animal fur, recognizable markings, subject count, and original person/animal combination.
-- Mark body regions already missing or outside the frame in the original image. Do not generate, paint, or infer missing body parts.
-- **误删身体属于失败：** treat an accidentally removed body part or animal, any face or animal-head change, a changed original combination, or a hard cutout edge as `FAIL`.
-- Record uncertain hair, clothing, hand/foot, animal-fur, furniture, and source-edge regions beside the affected `Pxx` item.
-
-If one cutout fails, redo only that cutout and show its comparison again. Do not begin creator composition until every required cutout passes and the user explicitly replies `抠图通过` or gives an equally explicit confirmation.
+`visual_base_created_before_composite` 只有直接的调用顺序、文件或时间证据才能写 true。把程序图改成 `.png` 不是生图来源证据。
