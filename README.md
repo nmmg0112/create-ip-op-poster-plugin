@@ -1,16 +1,18 @@
 # IP/OP 海报制作 Plugin
 
-把获授权的人物／动物原图、IP 征集 Brief、案例截图和 Logo，整理成有具体内容玩法、可直接查看的中文招商海报。版本 `0.3.0` 默认采用两次确认和 16:9 横版完整海报生成，普通用户不需要理解生图或排版术语。
+把获授权的人物／动物原图、IP 征集 Brief、案例截图和 Logo，整理成有具体内容玩法、可直接查看的中文招商海报。版本 `0.4.0` 增加自动新手开场、Aime Image2／豆包 Seedream 5.0 Pro 适配、锁定需求和成功版本保护。
 
 ## 最简单的用法
 
-安装后上传人物／动物原图，然后发送：
+安装或上传完整 Skill 包后，只发送：
 
 ```text
-@create-ip-op-poster 请先处理人物素材并给我看一张横版白底预览，等我回复“人物没问题”后再继续。
+@create-ip-op-poster 请告诉我怎么使用，并带我开始制作一张 IP／OP 招商海报。
 ```
 
-在 Codex 中可将 `@create-ip-op-poster` 改为 `$create-ip-op-poster`。Brief、案例、Logo 和固定文案可以一起上传，也可以在人物确认后补充。
+在 Codex 中可将 `@create-ip-op-poster` 改为 `$create-ip-op-poster`。Skill 会自动解释人物与案例的作用并给出极简填写提示，不要求用户复制长 Prompt。Brief、案例、Logo 和固定文案可以一起上传，也可以在人物确认后补充。
+
+Aime 使用 Image2；豆包的人物素材处理和正式海报使用 Seedream 5.0 Pro。两者都先把当前需求整理为 `LockedPosterSpec`，不把零散聊天直接交给生图模型。用户通过第一版后建立 `PosterVersionLock`，准确文字、Logo 和案例修改不得整图重绘。
 
 ## 你只需要确认两次
 

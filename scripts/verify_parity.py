@@ -108,8 +108,9 @@ def main() -> int:
                 fail(f"forbidden public file: {relative}", errors)
 
     active_files = [skill / "SKILL.md", skill / "agents" / "openai.yaml"]
-    active_files.extend(sorted((skill / "references").glob("*.md")))
-    active_files.extend(sorted((skill / "examples").glob("*.md")))
+    for folder in (skill / "references", skill / "examples"):
+        active_files.extend(sorted(folder.rglob("*.md")))
+        active_files.extend(sorted(folder.rglob("*.txt")))
     for path in active_files:
         if not path.is_file():
             continue

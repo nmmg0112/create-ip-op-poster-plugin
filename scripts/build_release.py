@@ -16,7 +16,7 @@ from pathlib import Path, PurePosixPath
 
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_VERSION = "0.3.0"
+EXPECTED_VERSION = "0.4.0"
 
 
 def fail(message: str) -> "NoReturn":
@@ -90,7 +90,17 @@ def inspect_archive(path: Path, prefix: str, patterns: list[str], skill_only: bo
         if reason:
             fail(f"{path.name} contains {relative}: {reason}")
 
-    required = {"SKILL.md"} if skill_only else {".codex-plugin/plugin.json", "skills/create-ip-op-poster/SKILL.md"}
+    required = (
+        {"SKILL.md", "README.md", "examples/prompt.txt", "examples/result.md"}
+        if skill_only
+        else {
+            ".codex-plugin/plugin.json",
+            "skills/create-ip-op-poster/SKILL.md",
+            "skills/create-ip-op-poster/README.md",
+            "skills/create-ip-op-poster/examples/prompt.txt",
+            "skills/create-ip-op-poster/examples/result.md",
+        }
+    )
     missing = sorted(required - set(members))
     if missing:
         fail(f"{path.name} missing required members: {missing}")

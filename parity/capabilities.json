@@ -13,10 +13,16 @@
     "references/prompt-template.md",
     "references/qa-checklist.md",
     "references/platform-usage.md",
+    "references/platforms/aime-executor.md",
+    "references/platforms/doubao-executor.md",
     "references/handoff-template.md",
     "examples/quick-start.md",
     "examples/chatgpt-starter.md",
-    "examples/successful-prompt-benchmark.md"
+    "examples/successful-prompt-benchmark.md",
+    "examples/prompt.txt",
+    "examples/result.md",
+    "examples/golden-case-multi-person.md",
+    "examples/golden-case-single-person.md"
   ],
   "exact_mirror_files": [
     "SKILL.md",
@@ -25,6 +31,10 @@
     "examples/quick-start.md",
     "examples/chatgpt-starter.md",
     "examples/successful-prompt-benchmark.md",
+    "examples/prompt.txt",
+    "examples/result.md",
+    "examples/golden-case-multi-person.md",
+    "examples/golden-case-single-person.md",
     "references/direction-framework.md",
     "references/handoff-template.md",
     "references/layout-grammar.md",
@@ -32,6 +42,8 @@
     "references/novice-mode.md",
     "references/workflow.md",
     "references/platform-usage.md",
+    "references/platforms/aime-executor.md",
+    "references/platforms/doubao-executor.md",
     "references/prompt-template.md",
     "references/qa-checklist.md",
     "references/visual-director.md"
@@ -176,6 +188,36 @@
       "id": "prompt_compiler",
       "file": "references/prompt-template.md",
       "markers": ["编译原则", "默认完整海报一次生成", "例外路线"]
+    },
+    {
+      "id": "automatic_onboarding",
+      "file": "references/novice-mode.md",
+      "markers": ["Skill 被读取后自动发送", "不要求用户复制", "资料不全也没关系"]
+    },
+    {
+      "id": "locked_poster_spec",
+      "file": "references/prompt-template.md",
+      "markers": ["LockedPosterSpec", "当前", "整段聊天记录"]
+    },
+    {
+      "id": "poster_version_lock",
+      "file": "references/workflow.md",
+      "markers": ["PosterVersionLock", "上一版成功文件", "局部修改"]
+    },
+    {
+      "id": "aime_image2_adapter",
+      "file": "references/platforms/aime-executor.md",
+      "markers": ["Image2", "LockedPosterSpec", "当前锁定版本"]
+    },
+    {
+      "id": "doubao_seedream_adapter",
+      "file": "references/platforms/doubao-executor.md",
+      "markers": ["Seedream 5.0 Pro", "稳定人物编号", "LockedPosterSpec"]
+    },
+    {
+      "id": "contest_reproducibility",
+      "file": "examples/prompt.txt",
+      "markers": ["告诉我怎么使用", "人物没问题", "选 1 生成", "16:9 横版"]
     }
   ]
 }

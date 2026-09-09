@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path(os.environ.get("POSTER_SKILL_SOURCE", ROOT / "skills" / "create-ip-op-poster"))
-EXPECTED_VERSION = "0.3.0"
+EXPECTED_VERSION = "0.4.0"
 PUBLIC_OVERRIDES = [
     "references/visual-case-library.md",
 ]
@@ -52,10 +52,7 @@ def main() -> int:
             check(isinstance(prompt, str) and len(prompt) <= 128, "starter prompt exceeds 128 characters", errors)
         if prompts:
             prompt_text = "\n".join(prompts)
-            check("人物" in prompts[0] and "人物没问题" in prompts[0], "first starter prompt must begin with the person-material gate", errors)
-            check("选 1 生成" in prompt_text, "starter prompts must expose the second and final confirmation", errors)
-            check("16:9 横版" in prompt_text, "starter prompts must expose the landscape default", errors)
-            check("严格保真" in prompt_text, "starter prompts must explain automatic strict-fidelity routing", errors)
+            check("告诉我怎么使用" in prompts[0] and "海报" in prompts[0], "first starter prompt must trigger automatic onboarding", errors)
             for marker in ("模式 A", "模式 B", "确认生成", "prompt_pending", "direction_and_mode_pending"):
                 check(marker not in prompt_text, f"starter prompts contain legacy user gate: {marker}", errors)
     for field in ("composerIcon", "logo"):
@@ -95,7 +92,12 @@ def main() -> int:
         "默认整图生成",
         "严格保真",
         "不得整图重绘",
-        "0.3.0",
+        "Aime",
+        "Image2",
+        "Seedream 5.0 Pro",
+        "LockedPosterSpec",
+        "PosterVersionLock",
+        "0.4.0",
     ):
         check(marker in active_listing, f"listing missing current marker: {marker}", errors)
 
@@ -116,6 +118,12 @@ def main() -> int:
             "person_layout_routing",
             "prompt_information_budget",
             "actual_final_qa",
+            "automatic_onboarding",
+            "locked_poster_spec",
+            "poster_version_lock",
+            "aime_image2_adapter",
+            "doubao_seedream_adapter",
+            "contest_reproducibility",
         }
         forbidden_capabilities = {
             "direction_mode_choice",
@@ -137,7 +145,7 @@ def main() -> int:
     release_builder = ROOT / "scripts" / "build_release.py"
     check(release_builder.is_file(), "missing reproducible release builder", errors)
     if release_builder.is_file():
-        check('EXPECTED_VERSION = "0.3.0"' in release_builder.read_text(encoding="utf-8"), "release builder version must be 0.3.0", errors)
+        check('EXPECTED_VERSION = "0.4.0"' in release_builder.read_text(encoding="utf-8"), "release builder version must be 0.4.0", errors)
 
     public_text_files = [
         manifest_path,

@@ -1,4 +1,4 @@
-# OpenAI Plugin submission materials — 0.3.0
+# OpenAI Plugin submission materials — 0.4.0
 
 Prepared for the **Skills only** submission flow.
 
@@ -15,8 +15,8 @@ Prepared for the **Skills only** submission flow.
 
 ## Starter prompts
 
-1. `我会上传人物／动物原图。请先生成横版白底人物预览，等我回复“人物没问题”后再继续。`
-2. `人物通过后，请结合 Brief、案例和我的视觉偏好给出具体玩法方案；我回复“选 1 生成”后直接生成 16:9 横版完整海报。`
+1. `请读取这个 Skill，告诉我怎么使用，并带我开始制作一张 IP／OP 招商海报。`
+2. 自动开场后上传人物与 Brief；人物预览通过时回复 `人物没问题`，方案通过时回复 `选 1 生成`。
 3. `如果我明确要求人脸、截图、Logo 或中文完全不变，请在后台切换严格保真，不要让我选择技术模式。`
 
 ## Positive test cases
@@ -85,7 +85,7 @@ Select only countries or regions where the publisher identity, support process, 
 
 ## Release notes
 
-`Version 0.3.0 replaces technical route selection and the separate Prompt-approval round with two simple confirmations: “人物没问题” and “选 1 生成”. It folds the optional visual-preference question into the person-preview turn, adds concrete content-play preflight, a 16:9 OP master, one-call whole-poster generation, content-led person grouping, prompt information limits, strict-fidelity environment generation around locked sources, target-only post-production edits, and actual-final visual QA. No-image environments return a Prompt/material-map handoff instead of a programmatic poster.`
+`Version 0.4.0 adds automatic beginner onboarding, self-contained Aime Image2 and Doubao Seedream 5.0 Pro executors, a LockedPosterSpec that excludes stale conversation instructions, and PosterVersionLock protection for accepted outputs. It keeps two simple confirmations, concrete play preflight, the 16:9 OP master, one-call whole-poster generation, strict-fidelity routing, target-only post-production edits, and actual-final visual QA.`
 
 ## Reviewer notes
 
@@ -93,6 +93,6 @@ Select only countries or regions where the publisher identity, support process, 
 - No MCP server, OAuth, external account, demo credentials, or private network is required.
 - Test fixtures must be consented fictional or synthetic assets; no internal client materials are required.
 - The bundled anonymous diagrams are explanatory references only and can never be an artistic base, complete-poster preview, or final poster.
-- Portal Skill bundle: `dist/create-ip-op-poster-skill-0.3.0.zip`.
-- Full Plugin archive: `dist/create-ip-op-poster-plugin-0.3.0.zip`.
+- Portal Skill bundle: `dist/create-ip-op-poster-skill-0.4.0.zip`.
+- Full Plugin archive: `dist/create-ip-op-poster-plugin-0.4.0.zip`.
 - SHA-256 values are recorded only by the clean-commit release builder in `tests/release-report.md`; no hash is claimed from this uncommitted working tree.
